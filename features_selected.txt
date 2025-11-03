@@ -1,0 +1,18 @@
+hourly
+seniority_senior
+job_simp_data scientist
+job_simp_director
+job_state_CA
+job_simp_data engineer
+job_simp_mle
+job_simp_na
+employer_provided
+Revenue_$10+ billion (USD)
+Revenue_$5 to $10 million (USD)
+Sector_Information Technology
+Industry_Biotech & Pharmaceuticals
+python_yn
+Industry_Investment Banking & Asset Management
+Type of ownership_Government
+Industry_Motion Picture Production & Distribution
+job_state_CT
