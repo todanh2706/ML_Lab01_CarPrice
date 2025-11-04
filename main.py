@@ -24,7 +24,6 @@ print("Train shape:", X_train.shape, "Val shape:", X_val.shape)
 # =========================
 # 2. KHAI BÁO 4 MODEL
 # =========================
-# Baseline: luôn dự đoán mean(y_train)
 baseline = Pipeline(
     steps=[
         ("scaler", StandardScaler(with_mean=False)),
