@@ -14,10 +14,14 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 # Chỉnh lại path nếu cần
 X_train = pd.read_csv("archive/train/x_train.csv")
+X_train_BIC = pd.read_csv("archive/train/x_train_BIC.csv")
 y_train = pd.read_csv("archive/train/y_train.csv").squeeze()
 
+
 X_val = pd.read_csv("archive/val/x_val.csv")
+X_val_BIC = pd.read_csv("archive/val/x_val_BIC.csv")
 y_val = pd.read_csv("archive/val/y_val.csv").squeeze()
+
 
 print("Train shape:", X_train.shape, "Val shape:", X_val.shape)
 
@@ -34,21 +38,21 @@ baseline = Pipeline(
 ridge = Pipeline(
     steps=[
         ("scaler", StandardScaler(with_mean=False)),
-        ("model", Ridge(alpha=1.0, random_state=42))
+        ("model", Ridge(alpha=33.6, random_state=42))
     ]
 )
 
 lasso = Pipeline(
     steps=[
         ("scaler", StandardScaler(with_mean=False)),
-        ("model", Lasso(alpha=0.001, random_state=42, max_iter=10000))
+        ("model", Lasso(alpha=78.48, random_state=42, max_iter=10000))
     ]
 )
 
 elastic_net = Pipeline(
     steps=[
         ("scaler", StandardScaler(with_mean=False)),
-        ("model", ElasticNet(alpha=0.1, l1_ratio=0.5, random_state=42, max_iter=10000))
+        ("model", ElasticNet(alpha=1.129, l1_ratio=0.7, random_state=42, max_iter=10000))
     ]
 )
 
@@ -67,10 +71,16 @@ results = []          # lưu lại bảng metrics
 predictions = {}      # lưu y_pred để vẽ hình
 
 for name, model in models.items():
+    if (name == "baseline_linear"):
+        X_train_used = X_train_BIC
+        X_val_used = X_val_BIC
+    else:
+        X_train_used = X_train
+        X_val_used = X_val
     print(f"\n=== Training model: {name} ===")
-    model.fit(X_train, y_train)
+    model.fit(X_train_used, y_train)
     
-    y_val_pred = model.predict(X_val)
+    y_val_pred = model.predict(X_val_used)
     predictions[name] = y_val_pred
     
     mae = mean_absolute_error(y_val, y_val_pred)
@@ -169,3 +179,19 @@ plt.tight_layout()
 plt.savefig("figures/compare_R2.png", dpi=200)
 
 print("\nAll figures saved to 'figures/' folder and metrics saved to 'model_metrics_val.csv'.")
+
+
+
+import os
+os.makedirs("models", exist_ok=True)
+# ========================================
+# 8️⃣ (Tuỳ chọn) Lưu mô hình tốt nhất
+# ========================================
+import joblib
+
+joblib.dump(ridge, "./models/ridge_best_model.pkl")
+joblib.dump(lasso, "./models/lasso_best_model.pkl")
+joblib.dump(elastic_net, "./models/elasticnet_best_model.pkl")
+joblib.dump(baseline, "./models/linear_best_model.pkl")
+
+print("\n💾 Đã lưu mô hình tốt nhất của từng loại vào file .pkl")
