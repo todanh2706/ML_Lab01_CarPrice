@@ -159,23 +159,29 @@ models_order = results_df.index.tolist()
 
 plt.figure(figsize=(6, 4))
 plt.bar(models_order, results_df["MAE"])
-plt.ylabel("MAE (lower is better)")
+plt.ylabel("MAE") #(lower is better)
 plt.title("Model comparison - MAE")
 plt.tight_layout()
+plt.ylim(2200, 2600)  # chỉnh y-axis cho dễ nhìn
+
 plt.savefig("figures/compare_MAE.png", dpi=200)
 
 plt.figure(figsize=(6, 4))
 plt.bar(models_order, results_df["RMSE"])
-plt.ylabel("RMSE (lower is better)")
+plt.ylabel("RMSE") #(lower is better)
 plt.title("Model comparison - RMSE")
 plt.tight_layout()
+plt.ylim(3400, 4200)  # chỉnh y-axis cho dễ nhìn
+
 plt.savefig("figures/compare_RMSE.png", dpi=200)
 
 plt.figure(figsize=(6, 4))
 plt.bar(models_order, results_df["R2"])
-plt.ylabel("R² (higher is better)")
+plt.ylabel("R²") # (higher is better)
 plt.title("Model comparison - R²")
 plt.tight_layout()
+plt.ylim(0.7, 0.9)  # chỉnh y-axis cho dễ nhìn
+
 plt.savefig("figures/compare_R2.png", dpi=200)
 
 print("\nAll figures saved to 'figures/' folder and metrics saved to 'model_metrics_val.csv'.")
