@@ -1,0 +1,68 @@
+\pagebreak
+\section{Đánh giá và so sánh kết quả}
+\subsection{Kết quả dự đoán của 4 mô hình trên tập validation}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{img/baseline_linear_pred_vs_actual.png}
+\caption{So sánh giá trị dự đoán và giá trị thực tế – Mô hình Linear Regression}
+\label{fig:baseline_linear_pred_vs_actual}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{img/ridge_pred_vs_actual.png}
+\caption{So sánh giá trị dự đoán và giá trị thực tế – Mô hình Ridge}
+\label{fig:ridge_pred_vs_actual}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{img/lasso_pred_vs_actual.png}
+\caption{So sánh giá trị dự đoán và giá trị thực tế – Mô hình Lasso}
+\label{fig:lasso_pred_vs_actual}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{img/elasticnet_pred_vs_actual.png}
+\caption{So sánh giá trị dự đoán và giá trị thực tế – Mô hình Elastic Net}
+\label{fig:elasticnet_pred_vs_actual}
+\end{figure}
+
+Đầu tiên, ta có thể thấy 4 mô hình đều đưa ra dự đoán giá khá là tốt ở khoảng giá thấp và có xu hướng dự đoán giá thấp hơn giá thực tế với các xe ở giá cao.
+
+\subsection{So sánh giữa các mô hình với nhau}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{img/compare_R2.png}
+\caption{So sánh giá trị $R^2$ giữa các model}
+\label{fig:compare_R2}
+\end{figure}
+
+Mô hình Linear Regression sử dụng BIC đạt $R^2 = 0.83$ cao nhất trong 4 model => Giải thích được khoảng 83\% độ biến thiên của dữ liệu. Ba mô hình còn lại có giá trị $R^2$ không chênh lệch nhau quá nhiều lần lượt là 0.79 với Ridge và Elastic Net và 0.77 với Lasso. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{img/compare_MAE.png}
+\caption{So sánh giá trị MAE giữa các model}
+\label{fig:compare_MAE}
+\end{figure}
+
+ElasticNet và Ridge có MAE thấp nhất và ngang nhau khoảng 2400 trong khi đó Lasso có MAE cao nhất (2500).
+
+=> Dù $R^2$ thấp hơn Linear Regression sử dụng BIC, ElasticNet và Ridge vẫn có MAE nhỏ hơn, nghĩa là trung bình dự đoán gần thực tế hơn.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{img/compare_RMSE.png}
+\caption{So sánh giá trị RMSE giữa các model}
+\label{fig:compare_RMSE}
+\end{figure}
+
+RMSE cao hơn ở các mô hình có Ridge, Lasso, và Elastic Net, cho thấy các ngoại lệ bị dự đoán sai nhiều hơn. Trong khi đó, Linear Regression với BIC có RMSE nhỏ nhất (3600) => mô hình này fit sát cả vùng có giá trị cao.
+Kết quả cho thấy mô hình Linear Regression cơ bản với BIC đạt $R^2$ cao nhất 0.83, cho thấy mối quan hệ tuyến tính mạnh giữa biến độc lập và biến mục tiêu.
+Mặc dù các mô hình có thêm ràng buộc về ma trận w vào hàm loss như Ridge và ElasticNet có MAE nhỏ hơn, nghĩa là dự đoán trung bình chính xác hơn và ít bị lệch nghiêm trọng hơn, sự khác nhau là không đáng kể giữa ElasticNet, Ridge, và Linear Regression với BIC. 
+Do đó, nhóm kết luận rằng với dataset này, Linear Regression sử dụng BIC để chọn feature là mô hình đạt kết quả cao nhất với tập validation.
+\subsection{Chạy thực tế trên tập test}

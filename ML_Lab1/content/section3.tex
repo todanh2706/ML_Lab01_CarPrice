@@ -1,0 +1,41 @@
+\pagebreak
+\section{Lý thuyết về các mô hình và lựa chọn}
+\subsection{Mô hình Linear Regression}
+\subsection{Mô hình Ridge}
+\subsection{Mô hình Lasso}
+\subsection{Mô hình Elastic Net}
+
+Theo \cite{OverfittingMLCoBan2017}, khi kết hợp cả hai dạng regularization $l_1$ và $l_2$, ta thu được mô hình Elastic Net Regression.
+Lúc đó, \textbf{hàm loss của Elastic Net} sẽ có dạng:
+\[
+J(w) = \frac{1}{2} \|y - Xw\|_2^2 + \lambda_1 \|w\|_1 + \lambda_2 \|w\|_2^2
+\]
+trong đó, $\lambda_1$ và $\lambda_2$ lần lượt là các hệ số điều chuẩn tương ứng với $l_1$ và $l_2$ regularization, giúp cân bằng giữa khả năng chọn lọc đặc trưng và việc giảm độ phức tạp của mô hình.
+Nhờ đó, Elastic Net đặc biệt hữu ích khi dữ liệu vừa chứa nhiều đặc trưng không quan trọng, vừa tồn tại hiện tượng đa cộng tuyến (multicollinearity) giữa các biến.
+
+
+\subsection{Phân tích dữ liệu và lựa chọn mô hình}
+Ta tiến hành trích xuất một số đặc trưng của các cột dữ liệu (trừ carname) của dataset:
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{img/corr_features_heatmap.png}
+\caption{Heatmap correlation giữa các feature}
+\label{fig:corr_features_heatmap}
+\end{figure}
+
+Có 8 cặp feature có correlation cao được highlight trên hình như là carlength với wheelbase, carwidth, curbweight; carwidth và curbweight, enginesize và curbweight, horsepower và enginesize, citympg và horsepower, và highwaympg với citympg.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{img/feature_target_corr.png}
+\caption{Bar chart correlation giữa feature và target (price)}
+\label{fig:feature_target_corr}
+\end{figure}
+
+Ngược lại, khi kiểm tra correlation giữa các feature và target, ta thấy có những biến có correlation rất là thấp: carhieght, car\_ID, peakrpm, symboling, stroke, và compressionratio.
+
+=> Đây là một dataset vừa có các feature có correlation với nhau rất cao, vừa có các feature khác có correlation với target gần như bằng 0.
+
+Với vấn đề đầu tiên, ta có thể giải quyết bằng Ridge. Với vấn đề thứ 2, ta có thể giải quyết bằng Lasso. Ngoài ra, thay vì thêm một chuẩn bậc nhất hoặc bậc 2 vào hàm loss nhằm giải quyết các vấn đề liên quan đến dataset, ta cũng có thể thử tối ưu hóa dataset ngay từ bước đầu tiên thông qua việc chọn các feature cho phù hợp.
+
+Vì vậy, nhóm quyết định sẽ thử chạy dataset này thông qua các model: Ridge, Lasso, Elastic Net (Ridge + Lasso), và Linear Regression cơ bản nhưng các feature được chọn trước thông qua thuật toán Forward Selection BIC.

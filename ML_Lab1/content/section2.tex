@@ -1,0 +1,109 @@
+\pagebreak
+\section{Mô tả và kỹ thuật dữ liệu}
+\subsection{Mô tả dữ liệu}
+\subsection{Tiền xử lí dữ liệu}
+\subsubsection{Loại bỏ thuộc tính ID không mang giá trị dự đoán}
+Trước tiên, ta cần loại bỏ thuộc tính ID (chỉ số định danh của mẫu) khỏi bộ dữ liệu. Thuộc tính ID thường là một mã định danh duy nhất cho mỗi mẫu và không chứa thông tin hữu ích để dự đoán biến mục tiêu. Việc giữ lại ID có thể gây nhiễu cho mô hình học máy do bản chất duy nhất của nó – mỗi giá trị ID chỉ xuất hiện một lần và không liên quan đến nhãn dự đoán. Loại bỏ cột ID giúp giảm số chiều dữ liệu và tránh việc mô hình học máy học những mẫu giả tạo từ ID.
+\subsubsection{Khảo sát kích thước và kiểu dữ liệu}
+Tiếp theo, ta tiến hành khảo sát tổng quan về bộ dữ liệu nhằm nắm rõ kích thước và kiểu dữ liệu của các trường. Cụ thể:
+\begin{itemize}
+    \item Ta dùng phương thức \texttt{.shape} để xác định số lượng mẫu và số thuộc tính trong tập dữ liệu. Kết quả dữ liệu có 205 mẫu và 25 thuộc tính. 
+    \item Ta dùng phương thức \texttt{.info()} của pandas để liệt kê các cột, kiểu dữ liệu từng cột, số lượng giá trị không rỗng cũng như lượng bộ nhớ sử dụng. Kết quả kiểu dữ liệu của các cột phù hợp với dữ liệu, dữ liệu không bị thiếu và không có sai lệch trong định dạng dữ liệu.
+\end{itemize}
+\subsubsection{Kiểm tra dữ liệu trùng lặp}
+Sau khi xem xét cấu trúc dữ liệu, ta kiểm tra sự trùng lắp trong tập dữ liệu. Bằng việc sử dụng phương thức \texttt{.duplicated()} của pandas, ta xác định được các bản ghi không có dữ liệu trùng lắp.
+
+Bước kiểm tra này là cần thiết vì nếu dữ liệu trùng lắp quá nhiều có thể làm cho mô hình tin rằng mẫu đó quan trọng hơn, từ đó mô hình có thể bị thiên lệch và giảm khả năng tổng quát hóa
+
+\subsubsection{Chia dữ liệu thành các tập huấn luyện, xác thực và kiểm thử}
+Sau các bước làm sạch dữ liệu, ta tiến hình chia bộ dữ liệu thành ba tập: tập huấn luyện (60\%), tập xác thực (20\%) và tập kiểm thử (20\%). Tập huấn luyện được sử dụng để huấn luyện mô hình, tập validation dùng để điều chỉnh siêu tham số và đánh giá mô hình một cách công bằng trong quá trình phát triển (do mô hình không nhìn thấy tập này khi huấn luyện), và tập kiểm thử được giữ riêng để đánh giá cuối cùng về khả năng tổng quát hóa của mô hình. Việc phân chia theo tỉ lệ 60/20/20 được lựa chọn nhằm đảm bảo đủ dữ liệu cho huấn luyện (giảm phương sai của mô hình) đồng thời vẫn dành một phần hợp lý cho việc xác thực và kiểm thử. Việc giữ tập kiểm thử tách biệt đến cuối cùng mô phỏng tình huống áp dụng mô hình trên dữ liệu thực tế chưa từng được thấy, do đó độ chính xác thu được trên tập này phản ánh sát hơn hiệu năng kỳ vọng trong thực tiễn.
+
+\subsubsection{Mã hóa one-hot cho biến không có kiểu dữ liệu là số}
+Đối với các thuộc tính có kiểu dữ liệu là Object mà ta đã khảo sát ở trên, ở bước này ta áp dụng kỹ thuật mã hóa one-hot để biến chúng thành các đặc trưng nhị phân. Phương pháp one-hot encoding sẽ tạo ra các biến giả (dummy variables) cho mỗi hạng mục có thể có của thuộc tính phân loại: mỗi cột mới đại diện cho một hạng mục, nhận giá trị 1 nếu mẫu thuộc hạng mục đó và 0 nếu không. Cụ thể, với pandas, chúng tôi sử dụng hàm \texttt{pd.get\_dummies} trên tập dữ liệu huấn luyện để chuyển đổi mỗi cột phân loại thành nhiều cột dummy tương ứng. Kỹ thuật này cho phép mô hình học máy của nhóm xử lý được dữ liệu phân loại một cách hiệu quả, bởi vì 4 mô hình của nhóm chỉ làm việc với dữ liệu số.
+
+\subsubsection{Căn chỉnh ma trận đặc trưng giữa các tập dữ liệu bằng reindex}
+Sau khi thực hiện one-hot encoding, một vấn đề quan trọng là đảm bảo tập validation và tập kiểm thử có cùng cấu trúc đặc trưng như tập huấn luyện. Do quá trình \texttt{get\_dummies} tạo cột dựa trên các hạng mục xuất hiện trong từng tập, nên các tập khác nhau có thể lệch nhau về số lượng hoặc tên cột dummy (ví dụ: một hạng mục nhất định có thể xuất hiện ở tập kiểm thử mà không có ở tập huấn luyện, hoặc ngược lại). 
+
+\vspace{0.5cm}
+
+Để giải quyết việc này, chúng ta sử dụng phương pháp reindex của pandas để căn chỉnh cột của tập validation và kiểm thử theo đúng tập cột của tập huấn luyện. Cụ thể, sau khi mã hóa one-hot trên tập huấn luyện và tập con cần căn chỉnh, chúng ta thực hiện: \texttt{X\_val = X\_val.reindex(columns=X\_
+train.columns, fill\_value=0) (tương tự cho X\_test)}. Cách làm này bổ sung những cột còn thiếu trong tập validation/test (nếu tập huấn luyện có cột dummy mà tập khác không có, thì cột đó sẽ được thêm vào tập kia và điền giá trị 0 cho tất cả các hàng), đồng thời loại bỏ những cột thừa không có trong tập huấn luyện (tương ứng với hạng mục không xuất hiện khi huấn luyện). Kết quả là mọi tập dữ liệu đều có cùng số chiều và tên cột đặc trưng, sẵn sàng để đưa vào mô hình. 
+
+\vspace{0.5cm}
+
+Bước căn chỉnh này đặc biệt quan trọng bởi nếu one-hot encoding tạo ra số cột khác nhau giữa tập huấn luyện và tập kiểm thử, mô hình sẽ gặp lỗi hoặc hoạt động sai; thậm chí lỗi này không hiển thị rõ ràng mà có thể chỉ làm giảm độ chính xác dự báo do bất nhất trong ma trận đặc trưng
+
+\subsubsection{Chuẩn hóa đặc trưng bằng StandardScaler}
+
+Cuối cùng, trước khi huấn luyện mô hình, chúng ta tiến hành chuẩn hóa các đặc trưng đầu vào bằng phương pháp StandardScaler. Bộ chuẩn hóa StandardScaler sẽ loại bỏ giá trị trung bình của mỗi đặc trưng và chia cho độ lệch chuẩn, đưa các đặc trưng về cùng một thang đo với trung bình 0 và phương sai đơn vị.
+
+\vspace{0.5cm}
+
+Có hai lợi ích chính từ việc chuẩn hóa dữ liệu: 
+\begin{itemize}
+    \item các thuật toán học máy hồi quy tuyến tính thường hội tụ nhanh hơn và cho kết quả tốt hơn khi các đặc trưng được đưa về cùng một quy mô
+    \item tránh hiện tượng một số thuộc tính có giá trị tuyệt đối lớn lấn át ảnh hưởng của các thuộc tính khác chỉ vì đơn vị đo hoặc phạm vi khác nhau.
+\end{itemize}
+
+Quá trình chuẩn hóa được thực hiện cẩn trọng để không gây rò rỉ dữ liệu. Cụ thể, chúng ta fit đối tượng StandardScaler trên tập huấn luyện (tính toán trung bình và độ lệch chuẩn của từng thuộc tính dựa trên dữ liệu huấn luyện), sau đó dùng scaler này để transform tập validation và tập kiểm thử theo cùng thông số. Lưu ý, chúng ta tuyệt đối không fit StandardScaler trên toàn bộ dữ liệu hay trên tập kiểm thử, bởi làm như vậy đồng nghĩa với việc sử dụng thông tin của tập kiểm thử trong quá trình chuẩn hóa tập huấn luyện – một dạng “data leakage” có thể dẫn đến đánh giá quá mức hiệu năng mô hình. Thay vào đó, việc chỉ dùng thống kê của tập huấn luyện để chuẩn hóa mọi tập khác đảm bảo rằng quy trình tiền xử lý của chúng ta tuân thủ chặt chẽ nguyên tắc huấn luyện trên dữ liệu quá khứ và kiểm thử trên dữ liệu chưa thấy. Nhờ bước chuẩn hóa này, dữ liệu đầu vào cho mô hình có phân phối ổn định, giúp mô hình học được trọng số tối ưu mà không bị ảnh hưởng bởi khác biệt về thang đo của các thuộc tính.
+
+\subsection{Chọn lọc thuộc tính}
+\subsubsection{Mục tiêu}
+Với tập dữ liệu được chọn, nếu sử dụng tất cả các thuộc tính có sẵn sẽ vô tình chứa các thuộc tính gây nhiễu, làm cho kết quả sau cùng của mô hình chua phải là tốt nhất. Vì thế, cần xây dựng được một mô hình hôi quy tốt nhất bắng cách xác định một tập con các thuộc tính (hay biến dự đoán) phù họp $X$ để dự đoán biến mục tiêu $y$.
+\subsubsection{Thách thức}
+Tuy vậy, quá trình lựa chọn thuộc tính không phải chỉ là áp dụng công thức có sẵn mà phải đảm bảo mô hình vẫn cân bằng được các yếu tố sau:
+\begin{itemize}
+    \item \textit{\textbf{Độ vừa vặn (Goodness-of-Fit):}} Mô hình phải giải thích được sự biến thiên trong dữ liệu, điều đó sẽ được thể hiện bằng độ lớn của $R^2$.
+    \item \textit{\textbf{Tính đơn giản (Parismony):}} Mô hình nên càng đơn giản càng tốt, càng phức tạp (hay số lượng biến lớn) thì càng khó diễn giải và dễ dẫn đến \textit{overfitting}.
+\end{itemize}
+Ngoài ra, thách thức về mặt tính toán cũng quan trọng không kém khi với $p$ thuộc tính, sẽ có $\displaystyle 2^p$ mô hình tập con có thể. Việc kiểm tra toàn bộ là bất khả thi về mặt tính toán nếu $p$ lớn (từ 40 trở lên).
+\subsubsection{Xây dựng mô hình chọn tập con và đánh giá}
+Ta cần xây dựng một mô hình chọn lọc từng thuộc tính, do đó mỗi khi mô hình chọn được một thuộc tính thì nó sẽ có thêm một biến dẫn đến cần kỹ thuật nâng cao hơn trong việc so sánh nó với phiên bản cũ của chính nó. Để so sánh các mô hình có số lượng biến khác nhau, không thể chỉ sử dụng $R^2$ (vì chỉ số này sẽ luôn tăng khi thêm biến) mà cần thêm các tiêu chí có "điều khoản phạt" (\textit{penalty}) cho sự phức tạp. Đề xuất tiêu biểu nhất là \textbf{Tiêu chí thông tin (\textit{Information Criterion}) \cite{InformationCriterion}}, phương pháp này yêu cầu các tiêu chí phải cân bằng trực tiếp giữa độ vừa vặn (đo bằng Log-Likelihood, liên quan đến $RSS$) và số lượng tham số $p$ để tối thiểu hoá giá trị tiêu chí chỉ bằng một con số duy nhất dùng cho việc đánh giá mô hình. Có hai loại chỉ số:
+\begin{itemize}
+    \item \textbf{AIC (Akaike Information Criterion): \cite{InformationCriterion}} Công thức tổng quát dựa trên Log-Likelihood ($L$) của mô hình. Đối với mô hình hồi quy tuyến tính sử dụng ước tính tổng bình phương phần dư ($RSS$), công thức có thể được viết là
+    \begin{center}
+        $\displaystyle AIC = n\ln{\frac{RSS}{n}} + 2k$.
+    \end{center}
+    Trong đó $\displaystyle \left(n\ln{\frac{RSS}{n}}\right)$ là thành phần dùng để đo mức độ vừa vặn, $(2k)$ là một khoảng trừng phạt (\textit{penalty}), với $k$ là tổng số tham số mà mô hình phải ước tính (bao gồm tất cả các thuộc tính và hệ số chặn). Với mỗi thuộc tính được thêm vào, $k$ sẽ tăng thêm 1 đơn vị dẫn đến $AIC$ bị tăng 2 đơn vị. Điều đó dẫn đến khi thêm một thuộc tính vào mô hình, $RSS$ sẽ giảm nhưng $2k$ sẽ tăng để phạt mô hình. $AIC$ chỉ giảm (tức là mô hình sẽ tốt hơn) khi mức độ cải thiện $RSS$ đủ lớn để bù lại khoản phạt.
+    \item \textbf{BIC (Bayesian Information Criterion): \cite{InformationCriterion}} Tương tự như AIC, nhưng xuất phát từ lý thuyết xác suất Bayes. Được thiết kế để tìm ra mô hình có xác suất cao nhất là "mô hình thực sự" (\textit{true model}) tạo ra dữ liệu. Công thức của BIC rất giống AIC nhưng có một khoản phạt khác biệt
+    \begin{center}
+        $\displaystyle BIC=n\ln{\frac{RSS}{n}}+k\ln{n}$.
+    \end{center}
+    Trong đó $\displaystyle \left(n\ln{\frac{RSS}{n}}\right)$ giống hệt $AIC$, khoản phạt $\displaystyle \left(k\ln{n}\right)$ được coi là nặng hơn khá nhiều vì $n$ (số lượng mẫu) thường rất lớn. Điều đó chứng tỏ rằng $BIC$ yêu cầu mô hình đưa ra thuộc tính mang lại sự cải thiện rất lơn cho $RSS$, đây là một điểm có thể được coi là lợi vì khi đó $BIC$ có thể đưa ra mô hình đơn giản hơn hay ít thuộc tính hơn so với $AIC$. Vì vậy, $BIC$ sẽ phù hợp vơi một mô hình cô đọng, dễ diễn giải và tránh các thuộc tính có ảnh hưởng yếu.
+\end{itemize}
+\subsubsection{Thuật toán tìm kiếm tự động}
+Như đã trình bày ở trên, vì số lượng mô hình cần kiểm tra là quá lớn ($2^p$ mô hình) nên cần áp dụng các thuật toán tìm kiếm tham lam để khám phá không gian mô hình theo cách tối ưu nhất, tránh lãng phí tài nguyên tính toán hay tối thiểu nhất là có thể "khả thi hoá" quy trình tính toán.\\
+Một thuật toán được đề xuất trong sách \textit{"Applied Linear Regression"} là \textbf{Forward Selection} \cite{ForwardSelection}, với ý tưởng chính là tiếp cận từ dưới lên bằng cách xây dựng mô hình từng bước một từ mô hình ban đầu chỉ có một biến hằng số. Với mỗi lần lặp, thuật toán sẽ chọn mô hình với bộ thuộc tính mới (vừa mới được thêm một thuộc tính) có chỉ số AIC/BIC tốt hơn so với mô hình trước đó (chỉ số AIC/BIC càng thấp là mô hình càng tốt), điều kiện dừng của thuật toán là khi tất cả các thuộc tính đều đã được kiểm tra.\\
+Để trực quan hơn, dưới đây là mã giả của thuật toán được viết lại từ mã nguồn của tác giả \textbf{talhahascelik} được đăng trong một repository Github \cite{talhahascelik}
+\begin{algorithm}[H]
+\begin{algorithmic}
+\caption{Mã giả của thuật toán Forward Selection}
+\State $remaining\_features \gets list(X.columns)$
+\State $remaining\_features.remove('intercept')$
+\State $selected\_features \gets ['intercept']$
+\State $current\_best\_bic \gets OLS(y, X[selected\_features]).fit().bic$
+\While{$remaining\_features$ is not empty}
+    \State $best\_feature\_to\_add \gets None$ \Comment{Biến dùng để chọn ra thuộc tính tốt nhất}
+    \State $best\_new\_bic \gets current\_best\_bic$ \Comment{Biến để tính toán chỉ số BIC tốt nhất}
+    \For{$feature \in remaining\_features$} \Comment{Xét từng thuộc tính trong tập thuộc tính còn lại}
+        \State $model\_features \gets selected\_features + [feature]$ \Comment{Tạo danh sách các thuộc tính tạm thời gồm thuộc tính đã chọn và thuộc tính đang xét}
+        \State$model \gets OLS(y, X[model\_features]).fit()$ \Comment{Huấn luyện mô hình OLS mới với bộ thuộc tính tạm thời và lấy BIC mới}
+        \State $new\_bic \gets model.bic$
+        \If{$new\_bic < best\_new\_bic$} \Comment{So sánh với BIC tốt nhất để hoán đổi nếu nó tốt hơn}
+            \State $best\_new\_bic \gets new\_bic$
+            \State $best\_feature\_to\_add \gets feature$
+        \EndIf
+    \EndFor
+    \If{$best\_feature\_to\_add \neq None$} \Comment{Nếu có thuộc tính mới được chọn}
+        \State $selected\_features.append(best\_new\_to\_add)$ \Comment{Thêm vào danh sách được chọn và loại khỏi danh sách thuộc tính còn lại}
+        \State $remaining\_features.remove(best\_feature\_to\_add)$
+        \State $current\_best\_bic \gets best\_new\_bic$ \Comment{Cập nhật giá trị BIC mới}
+    \EndIf
+    \If{$!best\_feature\_to\_add \neq None$}
+        \Return $selected\_features$ \Comment{Dừng khi không có thuộc tính nào làm cho BIC tốt hơn}
+    \EndIf
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+Thuật toán Foward Selection là một giải pháp hoàn toàn khả thi và hợp lí dành cho tập dữ liệu lớn ($p>n$) mà tại đó số thuộc tính nhiều hơn số mẫu. Lựa chọn tiến chỉ yêu cầu đánh giá tối đa $\displaystyle \frac{p(p+1)}{2}$ \cite{ForwardSelection} mô hình so với số lượng mô hình thực sự có là $2^p$. Sự giảm thiểu đáng kể về mặt chi phí tính toán sẽ làm thuật toán trở nên khả thi mặc cho $p$ rất lớn. Hơn nữa, Forward Selection có một lợi thế cấu trúc so với phương pháp \textbf{Backward Elimination} \cite{ForwardSelection} vì nó bắt đầu từ mô hình rỗng (\textit{null model}) và xây dựng dần lên thay vì yêu cầu $n > p$ như Backward Elimination để ước tính mô hình đầy đủ.\\
+Tuy nhiên, hạn chế cơ bản của Forward Selection nằm ở bản chất tham lam (\textit{greedy}) của thuật toán vốn chỉ tìm kiếm giải pháp tối ưu cục bộ (\textit{local optimum}) ở mỗi bước mà không đảm bảo tìm được giải pháp tối ưu toàn cục (\textit{global optimum}). Forward Selection có sự thiếu sót về bước lùi hay nói cách khác là nó không có khả năng quay lui (\textit{backtrack}), một thuộc tính khi đã được thêm vào mô hình sẽ không bao giờ bị loại bỏ ở các bước sau, ngay cả khi nó trở nên thừa thãi. Điều đó dẫn đến tiềm ẩn vấn đề che khuất (\textit{masking problem}), nơi một biến ban đầu được chọn vì nó là đại diện tạm thời tốt nhất cho một cấu trúc dữ liệu, nhưng sau đó trở nên không còn ý nghĩa thống kê khi một biến tương quan mạnh hơn khác được thêm vào. Do đó, không thể đảm bảo rằng mô hình $k$-biến với bộ thuộc tính sau cùng là mô hình $k$-biến tốt nhất.
