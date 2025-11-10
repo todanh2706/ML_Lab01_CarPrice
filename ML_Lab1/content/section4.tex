@@ -66,3 +66,20 @@ Kết quả cho thấy mô hình Linear Regression cơ bản với BIC đạt $R
 Mặc dù các mô hình có thêm ràng buộc về ma trận w vào hàm loss như Ridge và ElasticNet có MAE nhỏ hơn, nghĩa là dự đoán trung bình chính xác hơn và ít bị lệch nghiêm trọng hơn, sự khác nhau là không đáng kể giữa ElasticNet, Ridge, và Linear Regression với BIC. 
 Do đó, nhóm kết luận rằng với dataset này, Linear Regression sử dụng BIC để chọn feature là mô hình đạt kết quả cao nhất với tập validation.
 \subsection{Chạy thực tế trên tập test}
+Với mô hình Linear Regression sử dụng BIC được chọn ở trên, ta tiến hành chạy lại trên tập test để đánh giá chất lượng:
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{img/linear_test_pred_vs_actual.png}
+\caption{So sánh giá trị dự đoán và giá trị thực tế của mô hình Linear Regression BIC trên tập test}
+\label{fig:linear_test_pred_vs_actual}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{img/linear_test_value.png}
+\caption{Các metrics của mô hình Linear Regression BIC trên tập test}
+\label{fig:linear_test_value}
+\end{figure}
+
+Khi chạy lại trên tập test chất lượng của mô hình sụt giảm một chút, tuy nhiên sự suy giảm về chất lượng này là chấp nhận được và không thấy dấu hiệu của việc overfitting khi train.

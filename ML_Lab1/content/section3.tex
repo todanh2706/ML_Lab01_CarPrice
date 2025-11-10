@@ -72,3 +72,5 @@ Ngược lại, khi kiểm tra correlation giữa các feature và target, ta th
 Với vấn đề đầu tiên, ta có thể giải quyết bằng Ridge. Với vấn đề thứ 2, ta có thể giải quyết bằng Lasso. Ngoài ra, thay vì thêm một chuẩn bậc nhất hoặc bậc 2 vào hàm loss nhằm giải quyết các vấn đề liên quan đến dataset, ta cũng có thể thử tối ưu hóa dataset ngay từ bước đầu tiên thông qua việc chọn các feature cho phù hợp.
 
 Vì vậy, nhóm quyết định sẽ thử chạy dataset này thông qua các model: Ridge, Lasso, Elastic Net (Ridge + Lasso), và Linear Regression cơ bản nhưng các feature được chọn trước thông qua thuật toán Forward Selection BIC.
+
+Với các model: Ridge, Lasso, Elastic, hệ số $\lambda_1$ và $\lambda_2$ được chọn đơn giản bằng grid search với target là $R^2$ cao nhất.
