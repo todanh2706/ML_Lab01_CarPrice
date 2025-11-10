@@ -2,6 +2,37 @@
 \section{Lý thuyết về các mô hình và lựa chọn}
 \subsection{Mô hình Linear Regression}
 \subsection{Mô hình Ridge}
+\subsubsection{Cơ sở lý thuyết}
+Hồi quy Ridge (\textbf{\textit{Ridge Regression}}) là một kỹ thuật hồi quy tuyến tính đuọc điều chỉnh (\textit{regularized}) nhằm giải quyết hiện tượng quá khớp (\textit{overfitting}) bằng cách dùng các kỹ thuật Chính quy hoá (\textit{Regularization}). Phương pháp này thêm một số hạng (thường là \textit{penalty}) vào hàm mất mát (\textit{loss function}) của mô hình. Thành phần phạt này dùng để đánh giá và kiểm soát độ phức tạp của mô hình\\
+Cụ thể, mô hình Ridge sử dụng kỹ thuật \textit{L2 Regularization}, thay vì chỉ tối thiểu hoá tổng bình phương sai số (\textit{Mean Square Error - MSE}) như mô hình hồi quy tuyến tính cơ bản thì Ridge sẽ tối thiểu hoá một hàm mục tiêu mới:
+\begin{center}
+    $\displaystyle J(w)=\frac{1}{2}\|\mathbf{y}-\mathbf{X}\mathbf{w}\|_2^2+\lambda.\|\mathbf{w}\|_2^2$ \cite{Vu_2017}
+\end{center}
+Trong đó, $\mathbf{w}$ là vector trọng số của mô hình và $\lambda$ là siêu tham số (\textit{hyperparameter}) điều chỉnh độ mạnh của thành phần phạt $\|\mathbf{w}\|_2^2$.\\
+\cite{Ridge} Việc thêm thành phần phạt sẽ ép các trọng số của mô hình phải giữ ở mức nhỏ, co về gần 0. Điều này làm giảm sự phụ thuộc của mô hình vào bất kỳ một biến đầu vào cụ thể nào, khiến mô hình đơn giản hơn, ít nhạy cảm với nhiễu dữ liệu và tăng khả năng tổng quát hoá. Vì thế, bài toán tối ưu hàm mất mát của hồi quy Ridge thực chất là tối ưu song song hai thành phần bao gồm tổng bình phương sai số và thành phần phạt hay thành phần điều chuẩn (\textit{regularization term}).
+\begin{itemize}
+    \item Trường hợp $\lambda=0$, thành phần điều chuẩn bị tiêu giảm và chúng ta quay về hồi quy tuyến tính.
+    \item Trường hợp $\lambda \approx 0$, thành phần điều chuẩn trở nên ít quan trọng, mức độ kiểm soát quá khớp trở nên kém.
+    \item Trường hợp $\lambda$ lớn, mức độ kiểm soát lên độ lớn của các hệ số ước lượng tăng lên qua đó giảm bớt quá khớp.
+\end{itemize}
+Khi $\lambda$ tăng dần, hồi quy Ridge có xu hướng thu hẹp hệ số ước lượng $\mathbf{w}$ từ mô hình.
+\subsubsection{Triển khai thực nghiệm}
+Mô hình Ridge được triển khai và cấu hình như sau:
+\begin{itemize}
+    \item Pipeline: Mô hình được gói trong một \texttt{sklearn.pipeline.Pipeline} để chuẩn hoá quy trình xử lý.
+    \item Chuẩn hoá (Scaling): Bước đầu tiên trong pipeline là chuẩn hoá dữ liệu, rất quan trọng đối với các mô hình được chính quy hoá như Ridge, vì thành phần phạt nhạy cảm với sự chênh lệch về thang đo (\textit{scale}) của các biến đầu vào.
+    \item Cấu hình: Mô hình Ridge được khởi tạo với siêu tham số \texttt{alpha=33.6} và \texttt{random\_state=42} (được dùng để đảm bảo kết quả có thể được tái lập).
+    \item Dữ liệu: Không giống như mô hình \texttt{baseline\_linear} sử dụng bộ dữ liệu được chọn từ phương pháp chọn lọc thuộc tính ở phần trước, mô hình Ridge được huấn luyện trên bộ dữ liệu đầy đủ (đã được lưu lại vào \texttt{X\_train} và \texttt{y\_train}).
+\end{itemize}
+Siêu tham số \texttt{alpha} lúc này sẽ được lựa chọn thông qua các bước sau:
+\begin{itemize}
+    \item Định nghĩa không gian tìm kiếm: Một tập hợp các giá trị \texttt{alpha} tiềm năng được định nghĩa bằng \texttt{numpy.logspace(-4, 3, 20)}, tức là một mảng chứa 20 giá trị thực phân bố theo thang logarit từ $10^{-4}$ đến $10^3$. Việc sử dụng thang logarit cho phép khám phá hiệu qua  các giá trị ở nhiều bậc độ lớn khác nhau.
+    \item Đóng gói Pipeline: Dùng chính mô hình Ridge để chuẩn hoá dữ liệu trước khi huấn luyện mô hình, mục tiêu là tìm ra và đánh giá $R^2$.
+    \item Kiểm định chéo (\textit{Cross-Validation}): \texttt{GridSearchCV} được cấu hình để sử dụng phương pháp kiểm định chéo. Toàn bộ tập dữ liệu huấn luyện sẽ được chia thành 5 phần (\textit{folds}). Quá trình tìm kiếm sẽ lặp lại 5 lần, mỗi lần sẽ có một phàn được giữ lại làm tập validation tạm thời và 4 phần còn lại sẽ dùng để huấn luyện.
+    \item Tiêu chí đánh giá: Chỉ số được sử dụng để đánh giá là $R^2$
+    \item Lựa chọn tối ưu: quy trình \texttt{GridSearchCV} tự động huấn luyện và đánh giá mô hình Ridge với từng giá trị \texttt{alpha} trong không gian tìm kiếm. Giá trị nào mang $R^2$ trung bình cao nhất (qua 5 lượt) sẽ được chọn làm siêu tham số.
+\end{itemize}
+Từ quy trình trên, mô hình Ridge chọn được giá trị $\texttt{alpha}=33.6$.
 \subsection{Mô hình Lasso}
 \subsection{Mô hình Elastic Net}
 
@@ -27,7 +58,7 @@ Có 8 cặp feature có correlation cao được highlight trên hình như là 
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=1]{img/feature_target_corr.png}
+\includegraphics[scale=0.85]{img/feature_target_corr.png}
 \caption{Bar chart correlation giữa feature và target (price)}
 \label{fig:feature_target_corr}
 \end{figure}
