@@ -37,7 +37,8 @@ Từ quy trình trên, mô hình Ridge chọn được giá trị $\texttt{alpha
 Hồi quy Ridge, thông qua cơ chế chính quy hoá L2, được chọn như một giải pháp trực tiếp và hiệu quả cho vấn đề đa cộng tuyến. Bằng cách chấp nhận một lượng nhỏ độ lệch (\textit{bias}) thông qua việc co rút hệ số để từ đó giảm thiểu đáng kể được phương sai. Kết quả là một mô hình dự đoán ổn định, mạnh mẽ hơn và có khả năng tổng quát hoá tốt hơn trên dữ liệu mới so với mô hình tuyến tính cơ sở.
 \subsection{Mô hình Lasso}
 \subsubsection{Cơ sở lý thuyết}
-Lasso (Least Absolute Shrinkage and Selection Operator) là một phương pháp hồi quy tuyến tính sử dụng chuẩn hóa L1 (L1 regularization). Kỹ thuật này đồng thời thực hiện lựa chọn biến (variable selection) và điều chuẩn hóa (regularization) để nâng cao độ chính xác dự báo và khả năng diễn giải của mô hình. Nói cách khác, Lasso bổ sung một khoản phạt L1 vào hàm mất mát của hồi quy thường, khiến một số hệ số hồi quy bị kéo về 0, từ đó đơn giản hóa mô hình và giúp tránh hiện tượng quá khớp.
+
+Lasso (Least Absolute Shrinkage and Selection Operator) là một phương pháp hồi quy tuyến tính sử dụng chuẩn hóa L1 (L1 regularization). Kỹ thuật này đồng thời thực hiện lựa chọn biến (variable selection) và điều chuẩn hóa (regularization) để nâng cao độ chính xác dự báo và khả năng diễn giải của mô hình. Nói cách khác, Lasso bổ sung một khoản phạt L1 vào hàm mất mát của hồi quy thường, khiến một số hệ số hồi quy bị kéo về 0, từ đó đơn giản hóa mô hình và giúp tránh hiện tượng quá khớp. \cite{tibshirani1996lasso}
 
 Hàm mục tiêu của hồi quy Lasso (với dữ liệu có $N$ mẫu, $p$ đặc trưng) có dạng:
 
