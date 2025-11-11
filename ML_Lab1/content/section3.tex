@@ -1,6 +1,25 @@
 \pagebreak
 \section{Lý thuyết về các mô hình và lựa chọn}
 \subsection{Mô hình Linear Regression}
+\subsection{Mô hình Linear Regression}
+Linear regression là một mô hình học có giám sát với khả năng tìm mối liên hệ tuyến tính giữa input và output.\\
+\textbf{Vấn đề:} Model này nhận vào một vector $x \in \mathbb{R}^{D+1}$ gồm các đặt trưng của một mẫu và trả về giá trị dự đoán $y \in \mathbb{R}$. Ví dụ: Nhận vào các giá trị thuộc tính của một ngôi nhà như Diện tích sàn ($m^2$), số lượng phòng ngủ, khoảng cách tới trung tâm thành phố (m), tuổi nhà (năm) và trả về dự đoán giá của căn nhà đó.\\
+\textbf{Đánh giá hiệu năng: }Mô hình Linear Regression thường được đánh giá bằng Mean Square Error (MSE) trên tập train:\\
+\[
+MSE_{\text{train}} = \frac{1}{N} \| \hat{\mathbf{y}} - \mathbf{y} \|^2 = \frac{1}{N} \sum_{n=1}^{N} (\hat{y}_n - y_n)^2
+\]
+với $\hat{\mathbf{y}}$ là tập giá trị dự đoán, $\mathbf{y}$ là tập giá trị thực tế của tập train.\\
+\textbf{Huấn luyện mô hình}: Các phương pháp huấn luyện mô hình Linear Regression được dựa trên cách tính toán vector trọng số $\omega$ để giảm MSE xuống thấp nhất. Một cách làm phổ biến là tính toán đạo hàm của hàm MSE theo $\omega$ và cho nó bằng 0 để tìm cực tiểu.
+\[
+\nabla_{\mathbf{w}} (MSE_{\text{train}}) = \nabla_{\mathbf{w}} (\mathbf{w}^T \mathbf{X}^T \mathbf{X} \mathbf{w} - \mathbf{w}^T \mathbf{X}^T \mathbf{y} - \mathbf{y}^T \mathbf{X} \mathbf{w} + \mathbf{y}^T \mathbf{y}) = 2\mathbf{X}^T \mathbf{X} \mathbf{w} - 2\mathbf{X}^T \mathbf{y}
+\]
+
+\begin{align*}
+\nabla_{\mathbf{w}} (MSE_{\text{train}}) &= 0 \\
+\mathbf{X}^T \mathbf{X} \mathbf{w} - \mathbf{X}^T \mathbf{y} &= 0 \\
+\mathbf{X}^T \mathbf{X} \mathbf{w} &= \mathbf{X}^T \mathbf{y} \\
+\mathbf{w} &= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}
+\end{align*}
 \subsection{Mô hình Ridge}
 \subsubsection{Cơ sở lý thuyết}
 Hồi quy Ridge (\textbf{\textit{Ridge Regression}}) là một kỹ thuật hồi quy tuyến tính đuọc điều chỉnh (\textit{regularized}) nhằm giải quyết hiện tượng quá khớp (\textit{overfitting}) bằng cách dùng các kỹ thuật Chính quy hoá (\textit{Regularization}). Phương pháp này thêm một số hạng (thường là \textit{penalty}) vào hàm mất mát (\textit{loss function}) của mô hình. Thành phần phạt này dùng để đánh giá và kiểm soát độ phức tạp của mô hình\\
