@@ -1,0 +1,270 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{InformationCriterion}{inbook}{}{}
+      \name{author}{1}{}{%
+        {{hash=639307d4959b60055c361e071c175681}{%
+           family={Weisberg},
+           familyi={W\bibinitperiod},
+           given={Sanford},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{639307d4959b60055c361e071c175681}
+      \strng{fullhash}{639307d4959b60055c361e071c175681}
+      \strng{fullhashraw}{639307d4959b60055c361e071c175681}
+      \strng{bibnamehash}{639307d4959b60055c361e071c175681}
+      \strng{authorbibnamehash}{639307d4959b60055c361e071c175681}
+      \strng{authornamehash}{639307d4959b60055c361e071c175681}
+      \strng{authorfullhash}{639307d4959b60055c361e071c175681}
+      \strng{authorfullhashraw}{639307d4959b60055c361e071c175681}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{chapter}{Chapter 10: Variable Selection}
+      \field{edition}{4th}
+      \field{isbn}{978-1-118-38608-8}
+      \field{title}{Applied Linear Regression}
+      \field{year}{2014}
+      \field{pages}{238\bibrangedash 239}
+      \range{pages}{2}
+    \endentry
+    \entry{ForwardSelection}{inbook}{}{}
+      \name{author}{1}{}{%
+        {{hash=639307d4959b60055c361e071c175681}{%
+           family={Weisberg},
+           familyi={W\bibinitperiod},
+           given={Sanford},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{639307d4959b60055c361e071c175681}
+      \strng{fullhash}{639307d4959b60055c361e071c175681}
+      \strng{fullhashraw}{639307d4959b60055c361e071c175681}
+      \strng{bibnamehash}{639307d4959b60055c361e071c175681}
+      \strng{authorbibnamehash}{639307d4959b60055c361e071c175681}
+      \strng{authornamehash}{639307d4959b60055c361e071c175681}
+      \strng{authorfullhash}{639307d4959b60055c361e071c175681}
+      \strng{authorfullhashraw}{639307d4959b60055c361e071c175681}
+      \field{extraname}{2}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{chapter}{Chapter 10: Variable Selection}
+      \field{edition}{4th}
+      \field{isbn}{978-1-118-38608-8}
+      \field{title}{Applied Linear Regression}
+      \field{year}{2014}
+      \field{pages}{240}
+      \range{pages}{1}
+    \endentry
+    \entry{talhahascelik}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=7c00708c15b9cf858624f8a908cb5f89}{%
+           family={Talhahascelik},
+           familyi={T\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{7c00708c15b9cf858624f8a908cb5f89}
+      \strng{fullhash}{7c00708c15b9cf858624f8a908cb5f89}
+      \strng{fullhashraw}{7c00708c15b9cf858624f8a908cb5f89}
+      \strng{bibnamehash}{7c00708c15b9cf858624f8a908cb5f89}
+      \strng{authorbibnamehash}{7c00708c15b9cf858624f8a908cb5f89}
+      \strng{authornamehash}{7c00708c15b9cf858624f8a908cb5f89}
+      \strng{authorfullhash}{7c00708c15b9cf858624f8a908cb5f89}
+      \strng{authorfullhashraw}{7c00708c15b9cf858624f8a908cb5f89}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{GitHub}
+      \field{title}{Automated Stepwise Backward and Forward Selection}
+      \verb{urlraw}
+      \verb https://github.com/talhahascelik/python_stepwiseSelection/blob/master/stepwiseSelection.py
+      \endverb
+      \verb{url}
+      \verb https://github.com/talhahascelik/python_stepwiseSelection/blob/master/stepwiseSelection.py
+      \endverb
+    \endentry
+    \entry{Vu_2017}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=e70917076e59ce808316826719870634}{%
+           family={Vu},
+           familyi={V\bibinitperiod},
+           given={Tiep},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{e70917076e59ce808316826719870634}
+      \strng{fullhash}{e70917076e59ce808316826719870634}
+      \strng{fullhashraw}{e70917076e59ce808316826719870634}
+      \strng{bibnamehash}{e70917076e59ce808316826719870634}
+      \strng{authorbibnamehash}{e70917076e59ce808316826719870634}
+      \strng{authornamehash}{e70917076e59ce808316826719870634}
+      \strng{authorfullhash}{e70917076e59ce808316826719870634}
+      \strng{authorfullhashraw}{e70917076e59ce808316826719870634}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Tiep Vu’s Blog}
+      \field{month}{3}
+      \field{title}{Bài 15: Overfitting}
+      \field{year}{2017}
+      \verb{urlraw}
+      \verb https://machinelearningcoban.com/2017/03/04/overfitting
+      \endverb
+      \verb{url}
+      \verb https://machinelearningcoban.com/2017/03/04/overfitting
+      \endverb
+    \endentry
+    \entry{Ridge}{misc}{}{}
+      \list{language}{1}{%
+        {en}%
+      }
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labeltitlesource}{title}
+      \field{title}{2.2.2. Hồi qui Ridge — Deep AI KhanhBlog}
+      \verb{urlraw}
+      \verb https://phamdinhkhanh.github.io/deepai-book/ch\_ml/RidgedRegression.html
+      \endverb
+      \verb{url}
+      \verb https://phamdinhkhanh.github.io/deepai-book/ch%5C_ml/RidgedRegression.html
+      \endverb
+    \endentry
+    \entry{tibshirani1996lasso}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=88eea600247d798f8b2ce0b2dc614492}{%
+           family={Tibshirani},
+           familyi={T\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{88eea600247d798f8b2ce0b2dc614492}
+      \strng{fullhash}{88eea600247d798f8b2ce0b2dc614492}
+      \strng{fullhashraw}{88eea600247d798f8b2ce0b2dc614492}
+      \strng{bibnamehash}{88eea600247d798f8b2ce0b2dc614492}
+      \strng{authorbibnamehash}{88eea600247d798f8b2ce0b2dc614492}
+      \strng{authornamehash}{88eea600247d798f8b2ce0b2dc614492}
+      \strng{authorfullhash}{88eea600247d798f8b2ce0b2dc614492}
+      \strng{authorfullhashraw}{88eea600247d798f8b2ce0b2dc614492}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of the Royal Statistical Society: Series B (Methodological)}
+      \field{number}{1}
+      \field{title}{Regression Shrinkage and Selection via the Lasso}
+      \field{volume}{58}
+      \field{year}{1996}
+      \field{pages}{267\bibrangedash 288}
+      \range{pages}{22}
+      \verb{doi}
+      \verb 10.1111/j.2517-6161.1996.tb02080.x
+      \endverb
+    \endentry
+    \entry{ibm-lasso}{online}{}{}
+      \list{organization}{1}{%
+        {IBM}%
+      }
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labeltitlesource}{title}
+      \field{title}{What is lasso regression?}
+      \field{urlday}{11}
+      \field{urlmonth}{11}
+      \field{urlyear}{2025}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.ibm.com/think/topics/lasso-regression
+      \endverb
+      \verb{url}
+      \verb https://www.ibm.com/think/topics/lasso-regression
+      \endverb
+    \endentry
+    \entry{mota-lasso}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=4a4690e2668fb9cc1e932e00c03157c1}{%
+           family={Mota},
+           familyi={M\bibinitperiod},
+           given={Arjun},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{4a4690e2668fb9cc1e932e00c03157c1}
+      \strng{fullhash}{4a4690e2668fb9cc1e932e00c03157c1}
+      \strng{fullhashraw}{4a4690e2668fb9cc1e932e00c03157c1}
+      \strng{bibnamehash}{4a4690e2668fb9cc1e932e00c03157c1}
+      \strng{authorbibnamehash}{4a4690e2668fb9cc1e932e00c03157c1}
+      \strng{authornamehash}{4a4690e2668fb9cc1e932e00c03157c1}
+      \strng{authorfullhash}{4a4690e2668fb9cc1e932e00c03157c1}
+      \strng{authorfullhashraw}{4a4690e2668fb9cc1e932e00c03157c1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Lasso Regression}
+      \field{urlday}{11}
+      \field{urlmonth}{11}
+      \field{urlyear}{2025}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://arjun-mota.github.io/posts/lasso-regression/
+      \endverb
+      \verb{url}
+      \verb https://arjun-mota.github.io/posts/lasso-regression/
+      \endverb
+    \endentry
+    \entry{OverfittingMLCoBan2017}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=c39f3c17faad9f1f3762213d6a949abc}{%
+           family={Bản},
+           familyi={B\bibinitperiod},
+           given={Machine\bibnamedelimb Learning\bibnamedelima Cơ},
+           giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {vi}%
+      }
+      \strng{namehash}{c39f3c17faad9f1f3762213d6a949abc}
+      \strng{fullhash}{c39f3c17faad9f1f3762213d6a949abc}
+      \strng{fullhashraw}{c39f3c17faad9f1f3762213d6a949abc}
+      \strng{bibnamehash}{c39f3c17faad9f1f3762213d6a949abc}
+      \strng{authorbibnamehash}{c39f3c17faad9f1f3762213d6a949abc}
+      \strng{authornamehash}{c39f3c17faad9f1f3762213d6a949abc}
+      \strng{authorfullhash}{c39f3c17faad9f1f3762213d6a949abc}
+      \strng{authorfullhashraw}{c39f3c17faad9f1f3762213d6a949abc}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://machinelearningcoban.com/2017/03/04/overfitting/}}
+      \field{month}{3}
+      \field{note}{Truy cập ngày 11 tháng 7 năm 2025}
+      \field{title}{Bài 15: Overfitting}
+      \field{year}{2017}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

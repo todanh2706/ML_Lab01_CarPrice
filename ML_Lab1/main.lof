@@ -1,9 +1,11 @@
-\contentsline {figure}{\numberline {1}{\ignorespaces Heatmap correlation giữa các feature}}{12}{figure.1}%
-\contentsline {figure}{\numberline {2}{\ignorespaces Bar chart correlation giữa feature và target (price)}}{13}{figure.2}%
-\contentsline {figure}{\numberline {3}{\ignorespaces So sánh giá trị dự đoán và giá trị thực tế – Mô hình Linear Regression}}{14}{figure.3}%
-\contentsline {figure}{\numberline {4}{\ignorespaces So sánh giá trị dự đoán và giá trị thực tế – Mô hình Ridge}}{15}{figure.4}%
-\contentsline {figure}{\numberline {5}{\ignorespaces So sánh giá trị dự đoán và giá trị thực tế – Mô hình Lasso}}{16}{figure.5}%
-\contentsline {figure}{\numberline {6}{\ignorespaces So sánh giá trị dự đoán và giá trị thực tế – Mô hình Elastic Net}}{17}{figure.6}%
-\contentsline {figure}{\numberline {7}{\ignorespaces So sánh giá trị $R^2$ giữa các model}}{18}{figure.7}%
-\contentsline {figure}{\numberline {8}{\ignorespaces So sánh giá trị MAE giữa các model}}{19}{figure.8}%
-\contentsline {figure}{\numberline {9}{\ignorespaces So sánh giá trị RMSE giữa các model}}{20}{figure.9}%
+\contentsline {figure}{\numberline {1}{\ignorespaces Heatmap correlation giữa các feature}}{16}{figure.1}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Bar chart correlation giữa feature và target (price)}}{17}{figure.2}%
+\contentsline {figure}{\numberline {3}{\ignorespaces So sánh giá trị dự đoán và giá trị thực tế – Mô hình Linear Regression}}{18}{figure.3}%
+\contentsline {figure}{\numberline {4}{\ignorespaces So sánh giá trị dự đoán và giá trị thực tế – Mô hình Ridge}}{19}{figure.4}%
+\contentsline {figure}{\numberline {5}{\ignorespaces So sánh giá trị dự đoán và giá trị thực tế – Mô hình Lasso}}{20}{figure.5}%
+\contentsline {figure}{\numberline {6}{\ignorespaces So sánh giá trị dự đoán và giá trị thực tế – Mô hình Elastic Net}}{21}{figure.6}%
+\contentsline {figure}{\numberline {7}{\ignorespaces So sánh giá trị $R^2$ giữa các model}}{22}{figure.7}%
+\contentsline {figure}{\numberline {8}{\ignorespaces So sánh giá trị MAE giữa các model}}{23}{figure.8}%
+\contentsline {figure}{\numberline {9}{\ignorespaces So sánh giá trị RMSE giữa các model}}{24}{figure.9}%
+\contentsline {figure}{\numberline {10}{\ignorespaces So sánh giá trị dự đoán và giá trị thực tế của mô hình Linear Regression BIC trên tập test}}{25}{figure.10}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Các metrics của mô hình Linear Regression BIC trên tập test}}{25}{figure.11}%
