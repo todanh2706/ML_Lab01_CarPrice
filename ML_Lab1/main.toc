@@ -1,36 +1,37 @@
 \contentsline {section}{\numberline {1}Mô tả đồ án và động lực chọn đề tài}{1}{section.1}%
-\contentsline {section}{\numberline {2}Mô tả và kỹ thuật dữ liệu}{2}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Mô tả dữ liệu}{2}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}Tiền xử lí dữ liệu}{2}{subsection.2.2}%
-\contentsline {subsubsection}{\numberline {2.2.1}Loại bỏ thuộc tính ID không mang giá trị dự đoán}{2}{subsubsection.2.2.1}%
-\contentsline {subsubsection}{\numberline {2.2.2}Khảo sát kích thước và kiểu dữ liệu}{2}{subsubsection.2.2.2}%
-\contentsline {subsubsection}{\numberline {2.2.3}Kiểm tra dữ liệu trùng lặp}{2}{subsubsection.2.2.3}%
-\contentsline {subsubsection}{\numberline {2.2.4}Chia dữ liệu thành các tập huấn luyện, xác thực và kiểm thử}{2}{subsubsection.2.2.4}%
-\contentsline {subsubsection}{\numberline {2.2.5}Mã hóa one-hot cho biến không có kiểu dữ liệu là số}{3}{subsubsection.2.2.5}%
-\contentsline {subsubsection}{\numberline {2.2.6}Căn chỉnh ma trận đặc trưng giữa các tập dữ liệu bằng reindex}{3}{subsubsection.2.2.6}%
-\contentsline {subsubsection}{\numberline {2.2.7}Chuẩn hóa đặc trưng bằng StandardScaler}{4}{subsubsection.2.2.7}%
-\contentsline {subsection}{\numberline {2.3}Chọn lọc thuộc tính}{5}{subsection.2.3}%
-\contentsline {subsubsection}{\numberline {2.3.1}Mục tiêu}{5}{subsubsection.2.3.1}%
-\contentsline {subsubsection}{\numberline {2.3.2}Thách thức}{5}{subsubsection.2.3.2}%
-\contentsline {subsubsection}{\numberline {2.3.3}Xây dựng mô hình chọn tập con và đánh giá}{5}{subsubsection.2.3.3}%
-\contentsline {subsubsection}{\numberline {2.3.4}Thuật toán tìm kiếm tự động}{6}{subsubsection.2.3.4}%
-\contentsline {section}{\numberline {3}Lý thuyết về các mô hình và lựa chọn}{9}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Mô hình Linear Regression}{9}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Mô hình Linear Regression}{9}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Mô hình Ridge}{10}{subsection.3.3}%
-\contentsline {subsubsection}{\numberline {3.3.1}Cơ sở lý thuyết}{10}{subsubsection.3.3.1}%
-\contentsline {subsubsection}{\numberline {3.3.2}Triển khai thực nghiệm}{10}{subsubsection.3.3.2}%
-\contentsline {subsubsection}{\numberline {3.3.3}Kết luận}{12}{subsubsection.3.3.3}%
-\contentsline {subsection}{\numberline {3.4}Mô hình Lasso}{12}{subsection.3.4}%
-\contentsline {subsubsection}{\numberline {3.4.1}Cơ sở lý thuyết}{12}{subsubsection.3.4.1}%
-\contentsline {subsubsection}{\numberline {3.4.2}Triển khai thực nghiệm}{13}{subsubsection.3.4.2}%
-\contentsline {subsubsection}{\numberline {3.4.3}Kết luận}{14}{subsubsection.3.4.3}%
-\contentsline {subsection}{\numberline {3.5}Mô hình Elastic Net}{15}{subsection.3.5}%
-\contentsline {subsection}{\numberline {3.6}Phân tích dữ liệu và lựa chọn mô hình}{15}{subsection.3.6}%
-\contentsline {section}{\numberline {4}Đánh giá và so sánh kết quả}{18}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Kết quả dự đoán của 4 mô hình trên tập validation}{18}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}So sánh giữa các mô hình với nhau}{22}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Chạy thực tế trên tập test}{24}{subsection.4.3}%
-\contentsline {section}{\numberline {5}Kết luận và nhận định rút ra từ mô hình}{26}{section.5}%
-\contentsline {section}{\numberline {6}Mô tả ứng dụng}{27}{section.6}%
-\contentsline {section}{\numberline {7}Tài liệu tham khảo}{28}{section.7}%
+\contentsline {subsection}{\numberline {1.1}Mô tả đồ án}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Động lực chọn đề tài}{1}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Mô tả và kỹ thuật dữ liệu}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Mô tả dữ liệu}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Tiền xử lí dữ liệu}{3}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Loại bỏ thuộc tính ID không mang giá trị dự đoán}{3}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Khảo sát kích thước và kiểu dữ liệu}{3}{subsubsection.2.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.3}Kiểm tra dữ liệu trùng lặp}{3}{subsubsection.2.2.3}%
+\contentsline {subsubsection}{\numberline {2.2.4}Chia dữ liệu thành các tập huấn luyện, xác thực và kiểm thử}{3}{subsubsection.2.2.4}%
+\contentsline {subsubsection}{\numberline {2.2.5}Mã hóa one-hot cho biến không có kiểu dữ liệu là số}{4}{subsubsection.2.2.5}%
+\contentsline {subsubsection}{\numberline {2.2.6}Căn chỉnh ma trận đặc trưng giữa các tập dữ liệu bằng reindex}{4}{subsubsection.2.2.6}%
+\contentsline {subsubsection}{\numberline {2.2.7}Chuẩn hóa đặc trưng bằng StandardScaler}{5}{subsubsection.2.2.7}%
+\contentsline {subsection}{\numberline {2.3}Chọn lọc thuộc tính}{6}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}Mục tiêu}{6}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.2}Thách thức}{6}{subsubsection.2.3.2}%
+\contentsline {subsubsection}{\numberline {2.3.3}Xây dựng mô hình chọn tập con và đánh giá}{6}{subsubsection.2.3.3}%
+\contentsline {subsubsection}{\numberline {2.3.4}Thuật toán tìm kiếm tự động}{7}{subsubsection.2.3.4}%
+\contentsline {section}{\numberline {3}Lý thuyết về các mô hình và lựa chọn}{10}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Mô hình Linear Regression}{10}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Mô hình Ridge}{11}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Cơ sở lý thuyết}{11}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Triển khai thực nghiệm}{11}{subsubsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.3}Kết luận}{13}{subsubsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.3}Mô hình Lasso}{13}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}Cơ sở lý thuyết}{13}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}Triển khai thực nghiệm}{14}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.3}Kết luận}{15}{subsubsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.4}Mô hình Elastic Net}{16}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Phân tích dữ liệu và lựa chọn mô hình}{16}{subsection.3.5}%
+\contentsline {section}{\numberline {4}Đánh giá và so sánh kết quả}{19}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Kết quả dự đoán của 4 mô hình trên tập validation}{19}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}So sánh giữa các mô hình với nhau}{23}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Chạy thực tế trên tập test}{25}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Kết luận và phân tích kết quả}{27}{section.5}%
+\contentsline {section}{\numberline {6}Mô tả ứng dụng}{28}{section.6}%
+\contentsline {section}{\numberline {7}Tài liệu tham khảo}{29}{section.7}%

@@ -1,2 +1,13 @@
 \pagebreak
 \section{Mô tả đồ án và động lực chọn đề tài}
+\subsection{Mô tả đồ án}
+Đồ án tập trung nghiên cứu bài toán xây dựng mô hinhg học máy có giám sát, cụ thể là hồi quy tuyến tính để dự doán giá của xe ô tô dựa trên một tập hợp các thuộc tính kỹ thuật và đặc điểm của xe. Đặc trưng chính của tập dữ liệu phân tích là vừa tồn tại hiện tượng đa cộng tuyến (\textit{multicollinearity}) giữa các biến độc lập, vừa chứa các thuộc tính không liên quan có tương quan gần như bằng không với biến mục tiêu.\\
+Để giải quyết bài toán này, đồ án không chỉ áp dụng một mô hình duy nhất mà thực hiện một nghiên cứu so sánh toàn diện giữa hai triết lý tiếp cận chính:
+\begin{itemize}
+    \item Mô hình Chính quy hoá (\textit{Regularizaiton}): Triển khai các kỹ thuật hồi quy nâng cao bao gồm Ridge (L2), Lasso (L1) và Elastic Net (kết hợp L1 và L2) nhằm tự động co rút các hệ số, xử lý đa cộng tuyến và lựa chọn thuộc tính một cách ngầm định.
+    \item Mô hình Lựa chọn thuộc tính tường minh (\textit{Explicit Feature Selection}): Triển khai mô hình hồi quy tuyến tính cơ bản, nhưng được tối ưu hoá bằng cách áp dụng thuật toán Lựa chọn tiến (Forward Selection) dựa trên Tiêu chuẩn thông tin Bayesian (Bayesian Information Criterion) để chủ động loại bỏ các thuộc tính nhiễu là không cần thiết ngay từ bước tiền xử lý.
+\end{itemize}
+Tất cả các mô hình đều được chuẩn hoá dữ liệu, tinh chỉnh siêu tham số (\textit{hyperparameter}) thông qua \texttt{GridSearchCV} và được đánh giá hiệu năng một cách nghiệm ngặt dựa trên các chỉ số $R^2$, MAE và RMSE trên tập validation và tập test, nhằm tìm ra mô hình cuối cùng có khả năng tổng quát hoá tốt nhất.
+\subsection{Động lực chọn đề tài}
+Trong các bài toán hòi quy thực tế, dữ liệu hiếm khi ở trạng thái lý tưởng. Các mô hình OLS (\textit{Ordinary Least Square}) thường vi phạm các giả định căn bản khi đối mặt với dữ liệu ó hiện tượng đa cộng tuyến (các biến dự đoán tương quan mạnh với nhau). Dẫn đến việc mô hình trở nên thiếu ổn định, có phương sai cao (\textit{high variance}), nhạy cảm với dữ liệu huấn luyện và mất khả năng diễn giải.\\
+Động lực của đề tài xuất phát từ việc muốn khám phá và so sánh thực nghiệm hai hướng giải quyết đối lập nhau như đã trình bày ở trên. Đề tài được thúc đảy bởi mong muốn tìm ra câu trả lời dựa trên dữ liệu thực nghiệm: Liệu việc chấp nhận một lượng độ chệch nhỏ trong các mô hình chính quy hoá có hiệu quả hơn việc loại bỏ hoàn toàn các thuộc tính không? Hay một phương pháp lựa chọn thuộc tính thống kê cẩn thận kết hợp với mô hình đơn giản mới là giải pháp tối ưu? Kết quả của đồ án này sẽ là câu trả lời sâu scaws về sự đánh đổi giữa các kỹ thuật và đưa ra kết luận cụ thể cho bài toán dự đoán trên tập dữ liệu này.
