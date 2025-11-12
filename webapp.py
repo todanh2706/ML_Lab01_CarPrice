@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 from main1 import TabularPreprocessor, BICForwardSelector
+import altair as alt
 
 # --- 1. Load Data ---
 @st.cache_data
@@ -217,9 +218,78 @@ with col1:
 
 with col2:
     st.header("Data Insights")
+    st.subheader(f"Feature Influence for {model_name}")
+    
+    if model:
+        try:
+            # 1. Trích xuất hệ số
+            coefficients = model.named_steps['linear_model'].coef_
+            
+            # 2. Trích xuất tên đặc trưng
+            if model_name == "Linear Regression":
+                feature_names = model.named_steps['bic_selector'].get_feature_names_out()
+            else:
+                feature_names = model.named_steps['preprocess'].feature_columns_
+
+            # 3. Đảm bảo số lượng hệ số và tên đặc trưng khớp nhau
+            if len(coefficients) == len(feature_names):
+                # Tạo DataFrame để vẽ biểu đồ
+                coef_df = pd.DataFrame({
+                    'Feature': feature_names,
+                    'Influence': coefficients
+                })
+                
+                # Thêm cột để tô màu (âm/dương)
+                coef_df['Positive'] = coef_df['Influence'] > 0
+                
+                # Sắp xếp theo giá trị tuyệt đối để xem feature nào ảnh hưởng nhất
+                coef_df['Absolute_Influence'] = coef_df['Influence'].abs()
+                coef_df = coef_df.sort_values(by='Absolute_Influence', ascending=False)
+                
+                # Lấy Top 20 features ảnh hưởng nhất để biểu đồ gọn gàng
+                top_n = 20
+                top_n_actual = min(top_n, len(coef_df)) 
+                
+                coef_df_top = coef_df.head(top_n_actual).sort_values(by='Influence', ascending=False)
+                
+                st.write(f"Biểu đồ này cho thấy **Top {top_n_actual} đặc trưng** ảnh hưởng nhất đến giá dự đoán của model **{model_name}**.")
+
+                # 4. Vẽ biểu đồ bằng Altair
+                chart = alt.Chart(coef_df_top).mark_bar().encode(
+                    # Sắp xếp trục Y theo giá trị Influence
+                    x=alt.X('Influence:Q'),
+                    y=alt.Y('Feature:N', sort=alt.SortField(field="Influence", order='descending')),
+                    
+                    # Tô màu dựa trên giá trị Âm/Dương
+                    color=alt.Color('Positive:N', 
+                                    legend=None,
+                                    scale={'range': ['#FF6B6B', '#6BFFB8']} # Tùy chỉnh màu (Đỏ/Xanh)
+                                   ),
+                    tooltip=['Feature', 'Influence']
+                ).properties(
+                    title=f"Top {top_n_actual} Feature Influences ({model_name})"
+                ).interactive()
+                
+                st.altair_chart(chart, use_container_width=True)
+                
+                # Thêm expander để xem tất cả các hệ số nếu muốn
+                with st.expander("See all feature coefficients"):
+                    st.dataframe(coef_df.sort_values(by='Influence', ascending=False))
+            
+            else:
+                st.error(f"Lỗi: Số lượng đặc trưng ({len(feature_names)}) và hệ số ({len(coefficients)}) không khớp.")
+                
+        except KeyError as e:
+            st.error(f"Lỗi: Không tìm thấy bước pipeline: {e}. Hãy kiểm tra tên step trong file train ('linear_model', 'preprocess', 'bic_selector').")
+        except Exception as e:
+            st.error(f"Đã xảy ra lỗi khi lấy hệ số: {e}")
+    else:
+        st.info("Model chưa được tải. Không thể hiển thị insights.")
+
+    st.write("---")
+
     if data is not None:
-        st.subheader("Horsepower vs. Price")
-        import altair as alt
+        st.subheader("Horsepower vs. Price (Raw Data)")
         chart = alt.Chart(data).mark_circle().encode(
             x='horsepower',
             y='price',
