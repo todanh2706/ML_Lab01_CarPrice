@@ -6,9 +6,8 @@ from typing import List, Optional
 import joblib
 import numpy as np
 import pandas as pd
-import statsmodels.api as sm
 from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import ElasticNet, Lasso, LinearRegression, Ridge
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
@@ -18,11 +17,16 @@ from sklearn.preprocessing import StandardScaler
 PROJECT_ROOT = Path(__file__).resolve().parent
 DATA_PATH = PROJECT_ROOT / "archive" / "CarPrice_Assignment.csv"
 MODELS_DIR = PROJECT_ROOT / "models"
-MODEL_PATH = MODELS_DIR / "linear_bic_pipeline.pkl"
 METRICS_PATH = PROJECT_ROOT / "model_metrics_main1.csv"
 TARGET_COLUMN = "price"
 DROP_COLUMNS = ["car_ID"]
 RANDOM_STATE = 42
+MODEL_PATHS = {
+    "linear_bic": MODELS_DIR / "linear_bic_pipeline.pkl",
+    "ridge": MODELS_DIR / "ridge_pipeline.pkl",
+    "lasso": MODELS_DIR / "lasso_pipeline.pkl",
+    "elastic_net": MODELS_DIR / "elasticnet_pipeline.pkl",
+}
 
 
 class TabularPreprocessor(BaseEstimator, TransformerMixin):
@@ -75,6 +79,8 @@ class BICForwardSelector(BaseEstimator, TransformerMixin):
         self.verbose = verbose
 
     def fit(self, X, y):
+        import statsmodels.api as sm
+
         df = self._ensure_frame(X)
         y_series = self._ensure_series(y)
         X_const = sm.add_constant(df, has_constant="add")
@@ -149,6 +155,41 @@ def evaluate_split(name: str, model: Pipeline, X: pd.DataFrame, y: pd.Series):
     }
 
 
+def build_pipelines():
+    """Construct all model pipelines used for training."""
+    pipelines = {
+        "linear_bic": Pipeline(
+            steps=[
+                ("preprocess", TabularPreprocessor(drop_columns=DROP_COLUMNS)),
+                ("bic_selector", BICForwardSelector(verbose=True)),
+                ("linear_model", LinearRegression()),
+            ]
+        ),
+        "ridge": Pipeline(
+            steps=[
+                ("preprocess", TabularPreprocessor(drop_columns=DROP_COLUMNS)),
+                ("linear_model", Ridge(alpha=33.6, random_state=RANDOM_STATE)),
+            ]
+        ),
+        "lasso": Pipeline(
+            steps=[
+                ("preprocess", TabularPreprocessor(drop_columns=DROP_COLUMNS)),
+                ("linear_model", Lasso(alpha=78.48, random_state=RANDOM_STATE, max_iter=10000)),
+            ]
+        ),
+        "elastic_net": Pipeline(
+            steps=[
+                ("preprocess", TabularPreprocessor(drop_columns=DROP_COLUMNS)),
+                (
+                    "linear_model",
+                    ElasticNet(alpha=1.129, l1_ratio=0.7, random_state=RANDOM_STATE, max_iter=10000),
+                ),
+            ]
+        ),
+    }
+    return pipelines
+
+
 def main():
     if not DATA_PATH.exists():
         raise FileNotFoundError(f"Cannot find dataset at {DATA_PATH}")
@@ -168,35 +209,37 @@ def main():
 
     print(f"Train shape: {X_train.shape}, Val shape: {X_val.shape}, Test shape: {X_test.shape}")
 
-    pipeline = Pipeline(
-        steps=[
-            ("preprocess", TabularPreprocessor(drop_columns=DROP_COLUMNS)),
-            ("bic_selector", BICForwardSelector(verbose=True)),
-            ("linear_model", LinearRegression()),
-        ]
-    )
-
-    pipeline.fit(X_train, y_train)
-    bic_step = pipeline.named_steps["bic_selector"]
-    print(f"Selected {len(bic_step.selected_features_)} columns via BIC.")
-
+    pipelines = build_pipelines()
     metrics = []
-    for split_name, X_split, y_split in [
-        ("train", X_train, y_train),
-        ("val", X_val, y_val),
-        ("test", X_test, y_test),
-    ]:
-        metrics.append(evaluate_split(split_name, pipeline, X_split, y_split))
+    MODELS_DIR.mkdir(parents=True, exist_ok=True)
+
+    for model_name, pipeline in pipelines.items():
+        print(f"\n=== Training model: {model_name} ===")
+        pipeline.fit(X_train, y_train)
+
+        if model_name == "linear_bic":
+            bic_step = pipeline.named_steps["bic_selector"]
+            print(f"Selected {len(bic_step.selected_features_)} columns via BIC.")
+
+        for split_name, X_split, y_split in [
+            ("train", X_train, y_train),
+            ("val", X_val, y_val),
+            ("test", X_test, y_test),
+        ]:
+            split_metrics = evaluate_split(split_name, pipeline, X_split, y_split)
+            split_metrics["model"] = model_name
+            metrics.append(split_metrics)
+
+        model_path = MODEL_PATHS[model_name]
+        joblib.dump(pipeline, model_path)
+        print(f"Saved {model_name} pipeline to {model_path.resolve()}")
 
     metrics_df = pd.DataFrame(metrics)
+    metrics_df = metrics_df[["model", "split", "MAE", "RMSE", "R2"]]
     metrics_df.to_csv(METRICS_PATH, index=False)
     print("\n=== Metrics ===")
     print(metrics_df)
-
-    MODELS_DIR.mkdir(parents=True, exist_ok=True)
-    joblib.dump(pipeline, MODEL_PATH)
-    print(f"\nSaved pipeline to {MODEL_PATH.resolve()}")
-    print(f"Saved metrics to {METRICS_PATH.resolve()}")
+    print(f"\nSaved metrics to {METRICS_PATH.resolve()}")
 
 
 if __name__ == "__main__":
