@@ -251,8 +251,6 @@ with col2:
                 top_n_actual = min(top_n, len(coef_df)) 
                 
                 coef_df_top = coef_df.head(top_n_actual).sort_values(by='Influence', ascending=False)
-                
-                st.write(f"Biểu đồ này cho thấy **Top {top_n_actual} đặc trưng** ảnh hưởng nhất đến giá dự đoán của model **{model_name}**.")
 
                 # 4. Vẽ biểu đồ bằng Altair
                 chart = alt.Chart(coef_df_top).mark_bar().encode(
