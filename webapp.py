@@ -2,6 +2,7 @@
 import streamlit as st
 import pandas as pd
 import joblib
+from main1 import TabularPreprocessor, BICForwardSelector
 
 # --- 1. Load Data ---
 @st.cache_data
@@ -32,43 +33,160 @@ st.sidebar.header("Car Details & Model Selection")
 st.sidebar.subheader("1. Select Model")
 model_name = st.sidebar.selectbox(
     "Choose a prediction model:",
-    ("Linear Regression", "Random Forest", "Gradient Boosting", "Your Fourth Model")
+    ("Linear Regression", "Ridge", "Lasso", "Elastic Net")
 )
 
 if model_name == "Linear Regression":
-    model = load_model('linear_model.joblib')
-    st.sidebar.info("Using Linear Regression. Good for baseline.")
-elif model_name == "Random Forest":
-    model = load_model('random_forest.joblib')
-    st.sidebar.info("Using Random Forest. Good for accuracy.")
-elif model_name == "Gradient Boosting":
-    model = load_model('gradient_boosting.joblib')
-    st.sidebar.info("Using Gradient Boosting. Often the most accurate.")
-elif model_name == "Your Fourth Model":
-    model = load_model('fourth_model.joblib')
-    st.sidebar.info("Using Your Fourth Model.")
+    model = load_model('models/linear_bic_pipeline.pkl')
+    st.sidebar.info("Using Linear Regression")
+elif model_name == "Ridge":
+    model = load_model('models/ridge_pipeline.pkl')
+    st.sidebar.info("Using Ridge")
+elif model_name == "Lasso":
+    model = load_model('models/lasso_pipeline.pkl')
+    st.sidebar.info("Using Lasso")
+elif model_name == "Elastic Net":
+    model = load_model('models/elasticnet_pipeline.pkl')
+    st.sidebar.info("Using Elastic Net")
 else:
     st.sidebar.error("Please select a model.")
     st.stop()
     
-# --- Feature Inputs ---
 st.sidebar.subheader("2. Adjust Features")
+    
+col1, col2 = st.sidebar.columns(2)
 
-horsepower = st.sidebar.slider("Engine Horsepower", 50, 300, 120)
-car_width = st.sidebar.slider("Car Width (inches)", 60.0, 80.0, 65.5)
-fuel_type = st.sidebar.selectbox("Fuel Type", ("gas", "diesel"))
+with col1:
+    st.write("Categorical Inputs")
+    
+    symboling = st.selectbox(
+        "Symboling", 
+        (3, 1, 2, 0, -1, -2)
+    )
+    
+    fueltype = st.selectbox(
+        "Fuel Type", 
+        ('gas', 'diesel')
+    )
+    
+    # From aspiration (Total Unique: 2)
+    aspiration = st.selectbox(
+        "Aspiration", 
+        ('std', 'turbo')
+    )
+    
+    # From doornumber (Total Unique: 2)
+    doornumber = st.selectbox(
+        "Door Number", 
+        ('two', 'four')
+    )
+    
+    # From carbody (Total Unique: 5)
+    carbody = st.selectbox(
+        "Car Body", 
+        ('convertible', 'hatchback', 'sedan', 'wagon', 'hardtop')
+    )
+    
+    # From drivewheel (Total Unique: 3)
+    drivewheel = st.selectbox(
+        "Drive Wheel", 
+        ('rwd', 'fwd', '4wd')
+    )
+    
+    # From enginelocation (Total Unique: 2)
+    enginelocation = st.selectbox(
+        "Engine Location", 
+        ('front', 'rear')
+    )
+    
+    # From enginetype (Total Unique: 7)
+    enginetype = st.selectbox(
+        "Engine Type", 
+        ('dohc', 'ohcv', 'ohc', 'l', 'rotor', 'ohcf', 'dohcv')
+    )
+    
+    # From cylindernumber (Total Unique: 7)
+    cylindernumber = st.selectbox(
+        "Cylinder Number", 
+        ('four', 'six', 'five', 'three', 'twelve', 'two', 'eight')
+    )
+    
+    # From fuelsystem (Total Unique: 8)
+    fuelsystem = st.selectbox(
+        "Fuel System", 
+        ('mpfi', '2bbl', 'mfi', '1bbl', 'spfi', '4bbl', 'idi', 'spdi')
+    )
+
+    # For CarName -> CompanyName (Engineered Feature)
+    CompanyName = st.text_input("Company Name", "audi")
+    st.caption("Replace this with an `st.selectbox` using your unique company list for better results.")
+
+
+# === COLUMN 2: NUMERIC FEATURES ===
+with col2:
+    st.write("Numeric Inputs")
+    
+    wheelbase = st.slider("Wheelbase (in)", 85.0, 125.0, 99.8)
+    
+    carlength = st.slider("Car Length (in)", 140.0, 210.0, 176.6)
+    
+    carwidth = st.slider("Car Width (in)", 60.0, 75.0, 66.2)
+    
+    carheight = st.slider("Car Height (in)", 47.0, 60.0, 54.3)
+    
+    curbweight = st.slider("Curb Weight (lbs)", 1400, 4100, 2500)
+    
+    enginesize = st.slider("Engine Size (cu in)", 60, 330, 130)
+    
+    boreratio = st.slider("Bore Ratio", 2.50, 4.00, 3.19)
+    
+    stroke = st.slider("Stroke (in)", 2.00, 4.20, 3.40)
+    
+    compressionratio = st.slider("Compression Ratio", 7.0, 23.0, 9.0)
+    
+    horsepower = st.slider("Horsepower", 40, 290, 110)
+    
+    peakrpm = st.slider("Peak RPM", 4000, 7000, 5500)
+    
+    citympg = st.slider("City MPG", 13, 50, 24)
+    
+    highwaympg = st.slider("Highway MPG", 16, 55, 30)
 
 st.title(f"Car Price Prediction Dashboard")
 st.subheader(f"Using Model: {model_name}")
 
-# Create input DataFrame (must match your model's training)
 input_data = {
-    'horsepower': [horsepower],
-    'carwidth': [car_width],
-    'fueltype': [fuel_type]
-    # ... add all other features
+    # Numerical
+    'wheelbase': wheelbase,
+    'carlength': carlength,
+    'carwidth': carwidth,
+    'carheight': carheight,
+    'curbweight': curbweight,
+    'enginesize': enginesize,
+    'boreratio': boreratio,
+    'stroke': stroke,
+    'compressionratio': compressionratio,
+    'horsepower': horsepower,
+    'peakrpm': peakrpm,
+    'citympg': citympg,
+    'highwaympg': highwaympg,
+    
+    # Categorical
+    'fueltype': fueltype,
+    'aspiration': aspiration,
+    'doornumber': doornumber,
+    'carbody': carbody,
+    'drivewheel': drivewheel,
+    'enginelocation': enginelocation,
+    
+    # --- Add the rest of your features ---
+    'enginetype': enginetype,
+    'cylindernumber': cylindernumber,
+    'fuelsystem': fuelsystem,
+    'symboling': symboling,
+    'CompanyName': CompanyName
 }
-input_df = pd.DataFrame(input_data)
+input_df = pd.DataFrame([input_data])
 
 st.write("---")
 
@@ -89,8 +207,6 @@ with col1:
         else:
             st.error("Model is not loaded. Cannot predict.")
             
-    # Model Performance (Requirement 4)
-    # You would get these values from your notebook
     with st.expander("Show Model Performance"):
         if model_name == "Linear Regression":
             st.write("Model $R^2$: 0.85")
@@ -98,7 +214,6 @@ with col1:
         elif model_name == "Random Forest":
             st.write("Model $R^2$: 0.92") 
             st.write("Model RMSE: $2,100.00") 
-        # ... etc. for other models
 
 with col2:
     st.header("Data Insights")
