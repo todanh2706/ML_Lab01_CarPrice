@@ -41,7 +41,7 @@
 \label{fig:compare_R2}
 \end{figure}
 
-Mô hình Linear Regression sử dụng BIC đạt $R^2 = 0.83$ cao nhất trong 4 model => Giải thích được khoảng 83\% độ biến thiên của dữ liệu. Ba mô hình còn lại có giá trị $R^2$ không chênh lệch nhau quá nhiều lần lượt là 0.79 với Ridge và Elastic Net và 0.77 với Lasso. 
+Model Ridge cho ra kết quả tốt nhất với $R^2 = 0.85$, theo sau là Lasso và ElasticNet không chênh lệch nhiều lắm với $R^2 = 0.84$ và Linear Regression sử dụng BIC là tệ nhất với $R^2 = 0.83$.
 
 \begin{figure}[H]
 \centering
@@ -50,9 +50,7 @@ Mô hình Linear Regression sử dụng BIC đạt $R^2 = 0.83$ cao nhất trong
 \label{fig:compare_MAE}
 \end{figure}
 
-ElasticNet và Ridge có MAE thấp nhất và ngang nhau khoảng 2400 trong khi đó Lasso có MAE cao nhất (2500).
-
-=> Dù $R^2$ thấp hơn Linear Regression sử dụng BIC, ElasticNet và Ridge vẫn có MAE nhỏ hơn, nghĩa là trung bình dự đoán gần thực tế hơn.
+Tương tự như $R^2$, MAE thể hiện một bức tranh gần tương tự với Ridge cũng là model cho kết quả tốt nhất với MAE nhỏ nhất chỉ gần 2200, tương đương với ElasticNet, trong khi Lasso và Linear Regression sử dụng BIC có sai số cao hơn. 
 
 \begin{figure}[H]
 \centering
@@ -61,25 +59,33 @@ ElasticNet và Ridge có MAE thấp nhất và ngang nhau khoảng 2400 trong kh
 \label{fig:compare_RMSE}
 \end{figure}
 
-RMSE cao hơn ở các mô hình có Ridge, Lasso, và Elastic Net, cho thấy các ngoại lệ bị dự đoán sai nhiều hơn. Trong khi đó, Linear Regression với BIC có RMSE nhỏ nhất (3600) => mô hình này fit sát cả vùng có giá trị cao.
-Kết quả cho thấy mô hình Linear Regression cơ bản với BIC đạt $R^2$ cao nhất 0.83, cho thấy mối quan hệ tuyến tính mạnh giữa biến độc lập và biến mục tiêu.
-Mặc dù các mô hình có thêm ràng buộc về ma trận w vào hàm loss như Ridge và ElasticNet có MAE nhỏ hơn, nghĩa là dự đoán trung bình chính xác hơn và ít bị lệch nghiêm trọng hơn, sự khác nhau là không đáng kể giữa ElasticNet, Ridge, và Linear Regression với BIC. 
-Do đó, nhóm kết luận rằng với dataset này, Linear Regression sử dụng BIC để chọn feature là mô hình đạt kết quả cao nhất với tập validation.
+RMSE cao hơn ở tất cả các model cho thấy các ngoại lệ bị dự đoán sai nhiều hơn. Trong đó, Ridge cũng là model có dự đoán tốt nhất.
+
+Ridge perform tốt nhất ở cả 3 chỉ số, tuy nhiên performance có thể nói là tương đương giữa Ridge, Lasso, và ElasticNet khi cả 3 chỉ lệch nhau một khoảng rất nhỏ so với chênh lệch giữa Ridge và Linear Regression sử dụng BIC (mô hình tệ nhất).
+=> Việc chỉ chọn một số attribute theo BIC là không đủ để làm tăng hiệu suất model so với các phương pháp thêm norm của w vào hàm loss. Nếu chỉ chọn một model thì Ridge là model perform tốt nhất trên tập validation này. Ngoài ra Lasso và ElasticNet cũng có thể được cân nhắc khi performance chênh lệch là không đáng kể.
+
 \subsection{Chạy thực tế trên tập test}
-Với mô hình Linear Regression sử dụng BIC được chọn ở trên, ta tiến hành chạy lại trên tập test để đánh giá chất lượng:
 
-\begin{figure}[H]
-\centering
-\includegraphics[scale=1]{img/linear_test_pred_vs_actual.png}
-\caption{So sánh giá trị dự đoán và giá trị thực tế của mô hình Linear Regression BIC trên tập test}
-\label{fig:linear_test_pred_vs_actual}
-\end{figure}
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{l l r r r}
+        \hline
+        Model & Split & MAE & RMSE & $R^2$ \\
+        \hline
+        linear\_bic   & val  & 2444.636397649265  & 3589.5463960434304 & 0.8263884998258851 \\
+        linear\_bic   & test & 2783.1648824842    & 4882.289746350901  & 0.698054990083924  \\
+        ridge         & val  & 2176.1437858332592 & 3363.04433725391   & 0.8476071702262462 \\
+        ridge         & test & 2740.724017729538  & 3932.558881631839  & 0.8041014482771742 \\
+        lasso         & val  & 2327.5662605452317 & 3403.213561521712  & 0.8439449762866457 \\
+        lasso         & test & 2307.516077153252  & 3547.5767977943    & 0.8405794258258836 \\
+        elastic\_net  & val  & 2194.2041057989272 & 3407.9831095515196 & 0.8435072526540173 \\
+        elastic\_net  & test & 2785.465939343897  & 4010.4200760797594 & 0.7962674182615903 \\
+        \hline
+    \end{tabular}
+    \caption{Metric của các model trên tập validation và test}
+    \label{tab:model_metrics_val_test}
+\end{table}
 
-\begin{figure}[H]
-\centering
-\includegraphics[scale=1]{img/linear_test_value.png}
-\caption{Các metrics của mô hình Linear Regression BIC trên tập test}
-\label{fig:linear_test_value}
-\end{figure}
+Khi chạy lại trên tập test, model Lasso thể hiện tốt nhất với MAE = 2308 và $R^2 = 0.841$, cho thấy tính ổn định và khả năng tránh overfitting tốt hơn trên dữ liệu chưa thấy. Ridge cũng duy trì kết quả khá tốt, Elastic net có hiệu năng trung bình, trong khi Linear Regression sử dụng BIC tiếp tục cho kết quả thấp nhất với $R^2 = 0.7$.
 
-Khi chạy lại trên tập test chất lượng của mô hình sụt giảm một chút, tuy nhiên sự suy giảm về chất lượng này là chấp nhận được và không thấy dấu hiệu của việc overfitting khi train.
+Do đó, Ridge là model chạy tốt nhất ở phần validation và Lasso là model chạy tốt nhất ở phần test.
