@@ -1,2 +1,31 @@
 \pagebreak
 \section{Mô tả ứng dụng}
+\subsection{Phân tích và trực quan hoá mức độ ảnh hưởng của thuộc tính}
+\subsubsection{Mục tiêu}
+Mục tiêu chính của hệ thống là cho phép người dùng trải nghiệm trực tiếp tính năng dự đoán của mô hình, đồng thời giúp họ hiểu được phần nào cách thức mà mô hình đưa ra dự đoán. Chính vì thế, giao diện ứng dụng sẽ đưa ra các cơ chế trực quan hoá để làm rõ mối quan hệ giữa các biến đầu vào và kết quả dự đoán giá xe hay phân tích sự ảnh hưởng của các biến lên giá xe sau cùng.\\
+\subsubsection{Triển khai}
+Khi người dùng chọn một mô hình trên giao diện, ứng dụng sẽ tải tệp mô hình \texttt{.pkl} tương ứng. Quá trình trích xuất thông tin diễn ra như sau:
+\begin{itemize}
+    \item \textbf{Trích xuất hệ số:} Các mô hình hồi quy tuyến tính lưu trữ tầm quan trọng của mỗi thuộc tính dươi dạng mảng các hệ số (\texttt{coef\_}). Trích xuất mảng này từ pipeline của mỗi mô hình.
+    \item \textbf{Trích xuất tên thuộc tính:} Ánh xạ các hệ số vừa trích xuất xong về lại tên ban đầu của nó bằng cách truy cập vào bước tiền xử lý trong pipeline:
+    \begin{itemize}
+        \item Đối với các mô hình chính quy hoá (Ridge, Lasso, Elastic Net), tên thuộc tính được trích xuất từ thuộc tính \texttt{feature\_columns\_} của bước \texttt{"preprocess"} (lớp \texttt{TabularPreprocessor}).
+        \item Đối với mô hình hồi quy tuyến tính sử dụng BIC, tên đặc trưng được trích xuất từ phương thức \texttt{get\_feature\_names\_out()} của bước chọn lọc thuộc tinh, đảm bảo chỉ có các thuộc tính được lựa chọn mới hiển thị.
+    \end{itemize}
+    \item \textbf{Trực quan hoá:} Sau khi có được danh sách các tên thuộc tính ánh xạ với mảng chỉ số \texttt{coef\_}, kết hợp chúng thành một cấu trúc dữ liệu \texttt{DataFrame} duy nhất, sau đó dùng \texttt{Altair} để vẽ biểu đồ. Biểu đồ được sắp xếp dựa trên giá trị tuyệt đối của hệ số và chỉ hiển thị 20 đặc trưng có ảnh hưởng lớn nhất.
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{img/demo_influence.png}
+    \caption{Biểu đồ ví dụ thể hiện độ ảnh hưởng của thuộc tính lên kết quả dự đoán sau cùng được trích xuất từ giao diện ứng dụng web.}
+    \label{fig:mylabel}
+\end{figure}
+Trong biểu đồ trên, các thuộc tính có đường biểu diễn chỉ số tầm ảnh hưởng màu xanh tức là chúng có ảnh hưởng dương hay đồng biến với giá xe (giá xe sẽ tăng nếu các thuộc tính này tăng) và các thuộc tính có chỉ số tầm ảnh hưởng màu đỏ nghĩa là chúng có ảnh hưởng âm hay nghịch biến đến giá xe sau cùng.\\
+Ngoài ra, giao diện ứng dụng web cũng cung cấp một cách xem khác để có thể thấy được chi tiết toàn bộ thuộc tính và chỉ số tầm ảnh hưởng của chúng, được cài đặt để hiển thị khi người dùng ấn nút "See all feature coefficients".
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{img/demo_influence_table.png}
+    \caption{Bảng chi tiết ví dụ thể hiện độ ảnh hưởng của thuộc tính lên kết quả dự đoán sau cùng được trích xuất từ giao diện ứng dụng web.}
+    \label{fig:mylabel}
+\end{figure}
+Như hình trên, giao diện bảng này cung cấp một nút tải xuống để cho người dùng có thể xuất bảng ra file \texttt{.csv} để dễ dàng thực hiện các nghiệp vụ tính toán khác.
