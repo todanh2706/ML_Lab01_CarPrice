@@ -208,13 +208,6 @@ with col1:
         else:
             st.error("Model is not loaded. Cannot predict.")
             
-    with st.expander("Show Model Performance"):
-        if model_name == "Linear Regression":
-            st.write("Model $R^2$: 0.85")
-            st.write("Model RMSE: $3,500.00")
-        elif model_name == "Random Forest":
-            st.write("Model $R^2$: 0.92") 
-            st.write("Model RMSE: $2,100.00") 
 
 with col2:
     st.header("Data Insights")

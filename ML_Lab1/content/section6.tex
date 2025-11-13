@@ -29,3 +29,49 @@ Ngoài ra, giao diện ứng dụng web cũng cung cấp một cách xem khác �
     \label{fig:mylabel}
 \end{figure}
 Như hình trên, giao diện bảng này cung cấp một nút tải xuống để cho người dùng có thể xuất bảng ra file \texttt{.csv} để dễ dàng thực hiện các nghiệp vụ tính toán khác.
+
+\subsection{Tổng quan}
+Nhóm đã xây dụng một ứng dụng web đơn giản dùng để tương tác với mô hình, cho phép nhập dữ liệu riêng về một chiếc xe và chọn model dự đoán giá của chiếc xe đó. Ngoài ra tùy vào lựa chọn mô hình mà người dùng cũng có thể xem các biểu đồ về sức ảnh hưởng của các attribute lên dự đoán của chúng.
+\subsection{Các công nghệ đã sử dụng}
+Ứng dụng được xây dựng hoàn toàn bằng Python với các thư viện chính:
+\begin{itemize}
+    \item \textbf{Streamlit: }Đây là framework nhẹ dùng để xây dựng một giao diện web tương tác với người dùng, thích hợp để trình bày các dữ liệu, mô hình, kết quả trong lĩnh vực AI/ML và Data Science.
+    \item \textbf{Joblib: }Dùng để đóng gói quá trình preprocess và bản thân mô hình đã được huấn luyện thành các file .pkl, đồng thời dùng để tải các file đóng gói đó lên web để thực hiện dự đoán
+    \item \textbf{Altair:} Dùng để vẽ các biểu đồ tương tác, đặc biệt là biểu đồ về mức độ ảnh hưởng của đặc trưng lên dự đoán của mô hình
+    \item  \textbf{Pandas: }Dùng để xử lý, tạo DataFrame từ dữ liệu đầu vào của người dùng.
+\end{itemize}
+\subsection{Giao diện và hướng dẫn sử dụng}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{image.png}
+    \caption{Giao diện chính của ứng dụng web}
+    \label{fig:placeholder}
+\end{figure}
+Ở thanh bên trái, người dùng có thể chọn một trong 4 mô hình đã huấn luyện trước cùng các feature của một chiếc xe, bao gồm:
+\begin{itemize}
+    \item \textbf{Symboling: }Mức độ rủi ro bảo hiểm của xe. Đây là một thang điểm do các công ty bảo hiểm gán, thường từ -2 (an toàn) đến +3 (rủi ro cao).
+    \item \textbf{Fuel type: }Loại nhiên liệu xe sử dụng, gồm gas (xăng) và dầu diesel (Trong dataset không có xe điện).
+    \item \textbf{Aspiration: }Công nghệ nạp khí vào động cơ, gồm std (nạp tự nhiên) và turbo (có dùng bộ tăng áp giúp tăng công suất)
+    \item \textbf{Door number: }Số lượng cửa xe.
+    \item \textbf{Car Body: }Kiểu dáng thân xe (sedan, hatchback, wagon,...)
+    \item \textbf{Drive wheel: }Hệ thống dẫn động, ví dụ như: fwd (dẫn động cầu trước), rwd (dẫn đồng cầu sau), 4wd (dẫn động 4 bánh
+    \item \textbf{Engine location: }Vị trí đặt động cơ, trước hoặc sau.
+    \item \textbf{Engine type: }Kiểu cấu hình động cơ, ví dụ như: ohc (trục cam đơn trên đầu), dohc (trục cam kép).
+    \item \textbf{Cylinder number: }Số lượng xi-lanh trong động cơ (4 hoặc 6).
+    \item \textbf{Fuel System: }Hệ thống cung cấp nhiên liệu cho động cơ, ví dụ như: mpfi (phun xăng đa điểm), 2bbl (bộ chế hòa khí 2 họng).
+    \item \textbf{Car Model: }Tên mẫu xe (audi 100 ls,...), chỉ có thể chọn các mẫu xe có xuất hiện trong dataset.
+    \item \textbf{Wheel base: }Khoảng cách giữa trục bánh trước và trục bánh sau của xe.
+    \item \textbf{Car length: }Chiều dài tổng thể của xe.
+    \item \textbf{Car width: }Chiều rộng tổng thể của xe.
+    \item \textbf{Car height: }Chiều cao tổng thể của xe.
+    \item \textbf{Curb Weight: }Trọng lượng không tải của xe
+    \item \textbf{Engine Size: }Dung tích xi-lanh của động cơ
+    \item \textbf{Bore Ratio: }Đường kính của mỗi xi-lanh.
+    \item \textbf{Stroke: }Hành trình piston - quãng đường mà piston di chuyển lên xuống bên trong xi-lanh.
+    \item \textbf{Compression Ratio: }Tỷ số nén - tỷ lệ giữa thể tích xi-lanh khi piston ở điểm chết dưới và khi ở điểm chết trên.
+    \item \textbf{Horsepower: }Công suất cực đại mà động cơ có thể sản sinh theo mã lực.
+    \item \textbf{Peak RPM: }Vòng tua máy (số vòng quay mỗi phút - Revolutions Per Minute) mà tại đó động cơ đạt được công suất (horsepower) cực đại.
+    \item \textbf{City MPG: }Mức tiêu thụ nhiên liệu trong thành phố - Chỉ số hiệu suất nhiên liệu của xe, được đo bằng số dặm (Miles) xe có thể đi được với một gallon (Gallon) nhiên liệu trong điều kiện lái xe ở đô thị.
+    \item \textbf{Highway MPG: }Mức tiêu thụ nhiên liệu trên cao tốc - Chỉ số hiệu suất nhiên liệu của xe (dặm trên mỗi gallon) khi lái xe ở tốc độ ổn định trên đường cao tốc. Chỉ số này thường cao hơn (tiết kiệm nhiên liệu hơn) so với City MPG.
+\end{itemize}
+Sau khi chọn model và điền các feature của xe, người dùng có thể nhấn nút Predict Price để model thực hiện dự đoán giá. Phần trung tâm của web sẽ là nơi hiển thị kết quá dự đoán của model cùng với một đồ thị chỉ ra mức độ ảnh hưởng của từng feature lên dự đoán của model và một đồ thị chỉ ra các coefficients của các feature trong hàm tuyến tính của mô hình.
