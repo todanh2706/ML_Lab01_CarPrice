@@ -99,6 +99,7 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{GitHub}
+      \field{note}{Truy cập ngày 13 tháng 11 năm 2025}
       \field{title}{Automated Stepwise Backward and Forward Selection}
       \verb{urlraw}
       \verb https://github.com/talhahascelik/python_stepwiseSelection/blob/master/stepwiseSelection.py
@@ -129,6 +130,7 @@
       \field{labeltitlesource}{title}
       \field{journaltitle}{Tiep Vu’s Blog}
       \field{month}{3}
+      \field{note}{Truy cập ngày 13 tháng 11 năm 2025}
       \field{title}{Bài 15: Overfitting}
       \field{year}{2017}
       \verb{urlraw}
@@ -145,6 +147,7 @@
       \field{sortinit}{9}
       \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labeltitlesource}{title}
+      \field{note}{Truy cập ngày 13 tháng 11 năm 2025}
       \field{title}{2.2.2. Hồi qui Ridge — Deep AI KhanhBlog}
       \verb{urlraw}
       \verb https://phamdinhkhanh.github.io/deepai-book/ch\_ml/RidgedRegression.html
@@ -191,11 +194,8 @@
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labeltitlesource}{title}
+      \field{note}{Truy cập ngày 11 tháng 11 năm 2025}
       \field{title}{What is lasso regression?}
-      \field{urlday}{11}
-      \field{urlmonth}{11}
-      \field{urlyear}{2025}
-      \field{urldateera}{ce}
       \verb{urlraw}
       \verb https://www.ibm.com/think/topics/lasso-regression
       \endverb
@@ -223,46 +223,14 @@
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
+      \field{note}{Truy cập ngày 11 tháng 11 năm 2025}
       \field{title}{Lasso Regression}
-      \field{urlday}{11}
-      \field{urlmonth}{11}
-      \field{urlyear}{2025}
-      \field{urldateera}{ce}
       \verb{urlraw}
       \verb https://arjun-mota.github.io/posts/lasso-regression/
       \endverb
       \verb{url}
       \verb https://arjun-mota.github.io/posts/lasso-regression/
       \endverb
-    \endentry
-    \entry{OverfittingMLCoBan2017}{misc}{}{}
-      \name{author}{1}{}{%
-        {{hash=c39f3c17faad9f1f3762213d6a949abc}{%
-           family={Bản},
-           familyi={B\bibinitperiod},
-           given={Machine\bibnamedelimb Learning\bibnamedelima Cơ},
-           giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
-      }
-      \list{language}{1}{%
-        {vi}%
-      }
-      \strng{namehash}{c39f3c17faad9f1f3762213d6a949abc}
-      \strng{fullhash}{c39f3c17faad9f1f3762213d6a949abc}
-      \strng{fullhashraw}{c39f3c17faad9f1f3762213d6a949abc}
-      \strng{bibnamehash}{c39f3c17faad9f1f3762213d6a949abc}
-      \strng{authorbibnamehash}{c39f3c17faad9f1f3762213d6a949abc}
-      \strng{authornamehash}{c39f3c17faad9f1f3762213d6a949abc}
-      \strng{authorfullhash}{c39f3c17faad9f1f3762213d6a949abc}
-      \strng{authorfullhashraw}{c39f3c17faad9f1f3762213d6a949abc}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://machinelearningcoban.com/2017/03/04/overfitting/}}
-      \field{month}{3}
-      \field{note}{Truy cập ngày 11 tháng 7 năm 2025}
-      \field{title}{Bài 15: Overfitting}
-      \field{year}{2017}
     \endentry
   \enddatalist
 \endrefsection
