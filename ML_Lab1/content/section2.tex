@@ -1,6 +1,7 @@
 \pagebreak
 \section{Mô tả và kỹ thuật dữ liệu}
 \subsection{Mô tả dữ liệu}
+
 \subsection{Tiền xử lí dữ liệu}
 \subsubsection{Loại bỏ thuộc tính ID không mang giá trị dự đoán}
 Trước tiên, ta cần loại bỏ thuộc tính ID (chỉ số định danh của mẫu) khỏi bộ dữ liệu. Thuộc tính ID thường là một mã định danh duy nhất cho mỗi mẫu và không chứa thông tin hữu ích để dự đoán biến mục tiêu. Việc giữ lại ID có thể gây nhiễu cho mô hình học máy do bản chất duy nhất của nó – mỗi giá trị ID chỉ xuất hiện một lần và không liên quan đến nhãn dự đoán. Loại bỏ cột ID giúp giảm số chiều dữ liệu và tránh việc mô hình học máy học những mẫu giả tạo từ ID.
@@ -107,3 +108,32 @@ Một thuật toán được đề xuất trong sách \textit{"Applied Linear Re
 \end{algorithm}
 Thuật toán Foward Selection là một giải pháp hoàn toàn khả thi và hợp lí dành cho tập dữ liệu lớn ($p>n$) mà tại đó số thuộc tính nhiều hơn số mẫu. Lựa chọn tiến chỉ yêu cầu đánh giá tối đa $\displaystyle \frac{p(p+1)}{2}$ \cite{ForwardSelection} mô hình so với số lượng mô hình thực sự có là $2^p$. Sự giảm thiểu đáng kể về mặt chi phí tính toán sẽ làm thuật toán trở nên khả thi mặc cho $p$ rất lớn. Hơn nữa, Forward Selection có một lợi thế cấu trúc so với phương pháp \textbf{Backward Elimination} \cite{ForwardSelection} vì nó bắt đầu từ mô hình rỗng (\textit{null model}) và xây dựng dần lên thay vì yêu cầu $n > p$ như Backward Elimination để ước tính mô hình đầy đủ.\\
 Tuy nhiên, hạn chế cơ bản của Forward Selection nằm ở bản chất tham lam (\textit{greedy}) của thuật toán vốn chỉ tìm kiếm giải pháp tối ưu cục bộ (\textit{local optimum}) ở mỗi bước mà không đảm bảo tìm được giải pháp tối ưu toàn cục (\textit{global optimum}). Forward Selection có sự thiếu sót về bước lùi hay nói cách khác là nó không có khả năng quay lui (\textit{backtrack}), một thuộc tính khi đã được thêm vào mô hình sẽ không bao giờ bị loại bỏ ở các bước sau, ngay cả khi nó trở nên thừa thãi. Điều đó dẫn đến tiềm ẩn vấn đề che khuất (\textit{masking problem}), nơi một biến ban đầu được chọn vì nó là đại diện tạm thời tốt nhất cho một cấu trúc dữ liệu, nhưng sau đó trở nên không còn ý nghĩa thống kê khi một biến tương quan mạnh hơn khác được thêm vào. Do đó, không thể đảm bảo rằng mô hình $k$-biến với bộ thuộc tính sau cùng là mô hình $k$-biến tốt nhất.
+
+
+\subsection{Phân tích dữ liệu và lựa chọn mô hình}
+Ta tiến hành trích xuất một số đặc trưng của các cột dữ liệu (trừ carname) của dataset:
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{img/corr_features_heatmap.png}
+\caption{Heatmap correlation giữa các feature}
+\label{fig:corr_features_heatmap}
+\end{figure}
+
+Có 8 cặp feature có correlation cao được highlight trên hình như là carlength với wheelbase, carwidth, curbweight; carwidth và curbweight, enginesize và curbweight, horsepower và enginesize, citympg và horsepower, và highwaympg với citympg.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.85]{img/feature_target_corr.png}
+\caption{Bar chart correlation giữa feature và target (price)}
+\label{fig:feature_target_corr}
+\end{figure}
+
+Ngược lại, khi kiểm tra correlation giữa các feature và target, ta thấy có những biến có correlation rất là thấp: carhieght, car\_ID, peakrpm, symboling, stroke, và compressionratio.
+
+=> Đây là một dataset vừa có các feature có correlation với nhau rất cao, vừa có các feature khác có correlation với target gần như bằng 0.
+
+Với vấn đề đầu tiên, ta có thể giải quyết bằng Ridge. Với vấn đề thứ 2, ta có thể giải quyết bằng Lasso. Ngoài ra, thay vì thêm một chuẩn bậc nhất hoặc bậc 2 vào hàm loss nhằm giải quyết các vấn đề liên quan đến dataset, ta cũng có thể thử tối ưu hóa dataset ngay từ bước đầu tiên thông qua việc chọn các feature cho phù hợp.
+
+Vì vậy, nhóm quyết định sẽ thử chạy dataset này thông qua các model: Ridge, Lasso, Elastic Net (Ridge + Lasso), và Linear Regression cơ bản nhưng các feature được chọn trước thông qua thuật toán Forward Selection BIC.
+
+Với các model: Ridge, Lasso, Elastic, hệ số $\lambda_1$ và $\lambda_2$ được chọn đơn giản bằng grid search với target là $R^2$ cao nhất.

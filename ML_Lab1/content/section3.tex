@@ -51,8 +51,6 @@ Siêu tham số \texttt{alpha} lúc này sẽ được lựa chọn thông qua c
     \item Lựa chọn tối ưu: quy trình \texttt{GridSearchCV} tự động huấn luyện và đánh giá mô hình Ridge với từng giá trị \texttt{alpha} trong không gian tìm kiếm. Giá trị nào mang $R^2$ trung bình cao nhất (qua 5 lượt) sẽ được chọn làm siêu tham số.
 \end{itemize}
 Từ quy trình trên, mô hình Ridge chọn được giá trị $\texttt{alpha}=33.6$.
-\subsubsection{Kết luận}
-Hồi quy Ridge, thông qua cơ chế chính quy hoá L2, được chọn như một giải pháp trực tiếp và hiệu quả cho vấn đề đa cộng tuyến. Bằng cách chấp nhận một lượng nhỏ độ lệch (\textit{bias}) thông qua việc co rút hệ số để từ đó giảm thiểu đáng kể được phương sai. Kết quả là một mô hình dự đoán ổn định, mạnh mẽ hơn và có khả năng tổng quát hoá tốt hơn trên dữ liệu mới so với mô hình tuyến tính cơ sở.
 \subsection{Mô hình Lasso}
 \subsubsection{Cơ sở lý thuyết}
 
@@ -76,8 +74,6 @@ Trong thực nghiệm, chúng tôi xây dựng một pipeline gồm hai bước:
 
 Tiếp theo, để tìm giá trị điều chuẩn tối ưu cho mô hình Lasso, chúng tôi sử dụng phương pháp tìm kiếm lưới kết hợp cross-validation. Cụ thể, chúng tôi thực hiện \texttt{GridSearchCV} (5-fold cross-validation, scoring theo $R^2$) trên tham số $\alpha$ của Lasso (tương ứng với $\lambda$) trong khoảng logarithmic từ $10^{-4}$ đến $10^{3}$. Việc tìm kiếm trên không gian log-space giúp thử nhiều cấp độ regularization, từ rất nhẹ đến rất mạnh. Kết quả cho thấy $\alpha \approx 78.48$ là giá trị tối ưu cho mô hình (đạt $R^2$ cao nhất trên tập validation). Với $\alpha$ này, mô hình Lasso giữ lại được độ đơn giản cần thiết đồng thời vẫn giải thích tốt phương sai của dữ liệu. Mô hình cuối cùng được huấn luyện với \texttt{alpha=78.48}, \texttt{random\_state=42} (để kết quả tái lập) và \texttt{max\_iter=10000}. Việc tăng \texttt{max\_iter} lên 10000 vòng lặp nhằm đảm bảo thuật toán Lasso (coordinate descent) hội tụ, nhất là khi $\alpha$ khá lớn.
 
-\subsubsection{Kết luận}
-Lasso Regression với hình phạt $L1$ đã chứng tỏ vai trò hiệu quả trong việc kiểm soát hiện tượng overfitting và thực hiện chọn lọc đặc trưng tự động. Nhờ $\lambda$ được lựa chọn phù hợp, mô hình Lasso có thể giảm độ phức tạp (tránh overfit) bằng cách triệt tiêu các hệ số không cần thiết, đồng thời vẫn giữ được những đặc trưng quan trọng giúp mô hình dự báo chính xác. So với Ridge Regression, điểm khác biệt chính là Lasso tạo ra nghiệm thưa với một số hệ số đúng bằng 0 (tương ứng loại bỏ hoàn toàn những biến không quan trọng), trong khi Ridge (chuẩn hóa $L2$) không bao giờ đưa bất kỳ hệ số nào về 0 – do đó Ridge không có khả năng chọn lọc đặc trưng. Mặt khác, trong một số trường hợp, Ridge có thể cho kết quả tốt hơn Lasso nếu mô hình tối ưu không thực sự thưa hoặc khi các đặc trưng độc lập có tương quan cao. Khi các biến dự báo đều có đóng góp nhất định và tương quan với nhau, Lasso có xu hướng chỉ giữ lại ngẫu nhiên một biến rồi triệt tiêu các biến còn lại, có thể làm mất thông tin. Ngược lại, Ridge vẫn giữ lại tất cả các biến (mỗi biến đều có hệ số nhỏ hơn), nhờ đó tránh loại bỏ nhầm những biến hữu ích. Tóm lại, Lasso và Ridge đều là những kỹ thuật regularization hữu hiệu để giảm overfitting, nhưng Lasso tỏ ra ưu việt ở khả năng rút gọn mô hình và chọn lọc biến tự động, giúp mô hình vừa đơn giản vừa dễ diễn giải hơn.
 \subsection{Mô hình Elastic Net}
 
 Theo \cite{OverfittingMLCoBan2017}, khi kết hợp cả hai dạng regularization $l_1$ và $l_2$, ta thu được mô hình Elastic Net Regression.
@@ -88,31 +84,3 @@ J(w) = \frac{1}{2} \|y - Xw\|_2^2 + \lambda_1 \|w\|_1 + \lambda_2 \|w\|_2^2
 trong đó, $\lambda_1$ và $\lambda_2$ lần lượt là các hệ số điều chuẩn tương ứng với $l_1$ và $l_2$ regularization, giúp cân bằng giữa khả năng chọn lọc đặc trưng và việc giảm độ phức tạp của mô hình.
 Nhờ đó, Elastic Net đặc biệt hữu ích khi dữ liệu vừa chứa nhiều đặc trưng không quan trọng, vừa tồn tại hiện tượng đa cộng tuyến (multicollinearity) giữa các biến.
 
-
-\subsection{Phân tích dữ liệu và lựa chọn mô hình}
-Ta tiến hành trích xuất một số đặc trưng của các cột dữ liệu (trừ carname) của dataset:
-\begin{figure}[H]
-\centering
-\includegraphics[scale=1]{img/corr_features_heatmap.png}
-\caption{Heatmap correlation giữa các feature}
-\label{fig:corr_features_heatmap}
-\end{figure}
-
-Có 8 cặp feature có correlation cao được highlight trên hình như là carlength với wheelbase, carwidth, curbweight; carwidth và curbweight, enginesize và curbweight, horsepower và enginesize, citympg và horsepower, và highwaympg với citympg.
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.85]{img/feature_target_corr.png}
-\caption{Bar chart correlation giữa feature và target (price)}
-\label{fig:feature_target_corr}
-\end{figure}
-
-Ngược lại, khi kiểm tra correlation giữa các feature và target, ta thấy có những biến có correlation rất là thấp: carhieght, car\_ID, peakrpm, symboling, stroke, và compressionratio.
-
-=> Đây là một dataset vừa có các feature có correlation với nhau rất cao, vừa có các feature khác có correlation với target gần như bằng 0.
-
-Với vấn đề đầu tiên, ta có thể giải quyết bằng Ridge. Với vấn đề thứ 2, ta có thể giải quyết bằng Lasso. Ngoài ra, thay vì thêm một chuẩn bậc nhất hoặc bậc 2 vào hàm loss nhằm giải quyết các vấn đề liên quan đến dataset, ta cũng có thể thử tối ưu hóa dataset ngay từ bước đầu tiên thông qua việc chọn các feature cho phù hợp.
-
-Vì vậy, nhóm quyết định sẽ thử chạy dataset này thông qua các model: Ridge, Lasso, Elastic Net (Ridge + Lasso), và Linear Regression cơ bản nhưng các feature được chọn trước thông qua thuật toán Forward Selection BIC.
-
-Với các model: Ridge, Lasso, Elastic, hệ số $\lambda_1$ và $\lambda_2$ được chọn đơn giản bằng grid search với target là $R^2$ cao nhất.
