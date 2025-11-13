@@ -1,7 +1,37 @@
 \pagebreak
 \section{Mô tả và kỹ thuật dữ liệu}
 \subsection{Mô tả dữ liệu}
-
+Bộ dữ liệu về giá xe dựa trên các thuộc tính được lấy từ Kaggle của tác giả \href{https://www.kaggle.com/ashydv}{Ashish} (đường dẫn đến bộ dữ liệu: \href{https://www.kaggle.com/datasets/ashydv/car-price-prediction}{Dữ liệu giá xe}). Toàn bộ thuộc tính của dữ liệu được mô tả ở bảng sau:
+\begin{table}[H]
+\centering
+\caption{Bảng mô tả chi tiết các thuộc tính}
+\label{label:mylabel}
+\begin{tabular}{|l|l|p{8cm}|}
+    \hline
+    \textbf{Tên thuộc tính} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\
+    \hline
+    \texttt{car\_ID} & Integer & Chỉ số định danh cho từng chiếc xe trong tập dữ liệu, đếm từ 0 - 205 (tương ứng với 206 chiếc xe trong tập dữ liệu). \\
+    \hline
+    \texttt{symboling} & Integer & Mức xếp hạng rủi ro bảo hiểm của chiếc xe, giá trị này càng lớn thì xe có rủi ro càng cao (các loại xe thể thao, xe địa hình, ...) và ngược lại. \\
+    \hline
+    \texttt{CarName} & String & Tên của chiếc xe. \\
+    \hline
+    \texttt{fueltype} & String & Loại nhiên liệu, gồm 2 loại duy nhất là \texttt{gas} và \texttt{diesel}. \\
+    \hline
+    \texttt{aspiration} & String & Mô tả cách không khí được nạp vào xi-lanh của động cơ xe, gồm 2 loại duy nhất là \texttt{std} (tiêu chuẩn) và \texttt{turbo} (tăng áp). \\
+    \hline
+    \texttt{doornumber} & String & Số lượng cửa của xe, cũng chỉ có 2 loại duy nhất là \texttt{two} và \texttt{four}. \\
+    \hline
+    \texttt{carbody} & String & Kiểu dáng của chiếc xe (\texttt{sedan}, \texttt{hatchback}, ...). \\
+    \hline
+    \texttt{drivewheel} & String & Cho biết bánh xe nào nhận lực kéo từ động cơ để đẩy chiếc xe đi, gồm 2 loại duy nhất là \texttt{fwd} (bánh trước) và \texttt{rwd} (bánh sau). \\
+    \hline
+    \texttt{enginelocation} & String & Vị trí đặt động cơ, gồm 2 loại duy nhất là \texttt{front} và \texttt{rear}. \\
+    \hline
+    \texttt{wheelbase} & Decimal & Chiều dài trục cơ sở. \\
+    \hline
+\end{tabular}
+\end{table}
 \subsection{Tiền xử lí dữ liệu}
 \subsubsection{Loại bỏ thuộc tính ID không mang giá trị dự đoán}
 Trước tiên, ta cần loại bỏ thuộc tính ID (chỉ số định danh của mẫu) khỏi bộ dữ liệu. Thuộc tính ID thường là một mã định danh duy nhất cho mỗi mẫu và không chứa thông tin hữu ích để dự đoán biến mục tiêu. Việc giữ lại ID có thể gây nhiễu cho mô hình học máy do bản chất duy nhất của nó – mỗi giá trị ID chỉ xuất hiện một lần và không liên quan đến nhãn dự đoán. Loại bỏ cột ID giúp giảm số chiều dữ liệu và tránh việc mô hình học máy học những mẫu giả tạo từ ID.

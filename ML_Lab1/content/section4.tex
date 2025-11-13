@@ -59,9 +59,7 @@ Tương tự như $R^2$, MAE thể hiện một bức tranh gần tương tự v
 \label{fig:compare_RMSE}
 \end{figure}
 
-RMSE cao hơn ở tất cả các mô hình cho thấy các ngoại lệ bị dự đoán sai nhiều hơn. Trong đó, Ridge cũng là mô hình có dự đoán tốt nhất.
-
-\\Ridge perform tốt nhất ở cả 3 chỉ số, tuy nhiên performance có thể nói là tương đương giữa Ridge, Lasso, và ElasticNet khi cả 3 chỉ lệch nhau một khoảng rất nhỏ so với chênh lệch giữa Ridge và Linear Regression sử dụng BIC (mô hình tệ nhất).
+RMSE cao hơn ở tất cả các mô hình cho thấy các ngoại lệ bị dự đoán sai nhiều hơn. Trong đó, Ridge cũng là mô hình có dự đoán tốt nhất. Ridge perform tốt nhất ở cả 3 chỉ số, tuy nhiên performance có thể nói là tương đương giữa Ridge, Lasso, và ElasticNet khi cả 3 chỉ lệch nhau một khoảng rất nhỏ so với chênh lệch giữa Ridge và Linear Regression sử dụng BIC (mô hình tệ nhất).
 => Việc chỉ chọn một số attribute theo BIC là không đủ để làm tăng hiệu suất mô hình so với các phương pháp thêm norm của w vào hàm loss. Nếu chỉ chọn một mô hình thì Ridge là mô hình perform tốt nhất trên tập validation này. Ngoài ra Lasso và ElasticNet cũng có thể được cân nhắc khi performance chênh lệch là không đáng kể.
 
 \subsection{Chạy thực tế trên tập test}
