@@ -9,3 +9,5 @@
 \contentsline {figure}{\numberline {9}{\ignorespaces So sánh giá trị RMSE giữa các model}}{25}{figure.9}%
 \contentsline {figure}{\numberline {10}{\ignorespaces So sánh giá trị dự đoán và giá trị thực tế của mô hình Linear Regression BIC trên tập test}}{26}{figure.10}%
 \contentsline {figure}{\numberline {11}{\ignorespaces Các metrics của mô hình Linear Regression BIC trên tập test}}{26}{figure.11}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Biểu đồ ví dụ thể hiện độ ảnh hưởng của thuộc tính lên kết quả dự đoán sau cùng được trích xuất từ giao diện ứng dụng web.}}{29}{figure.12}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Bảng chi tiết ví dụ thể hiện độ ảnh hưởng của thuộc tính lên kết quả dự đoán sau cùng được trích xuất từ giao diện ứng dụng web.}}{30}{figure.13}%

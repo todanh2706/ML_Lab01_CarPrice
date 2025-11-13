@@ -34,4 +34,7 @@
 \contentsline {subsection}{\numberline {4.3}Chạy thực tế trên tập test}{25}{subsection.4.3}%
 \contentsline {section}{\numberline {5}Kết luận và phân tích kết quả}{27}{section.5}%
 \contentsline {section}{\numberline {6}Mô tả ứng dụng}{28}{section.6}%
-\contentsline {section}{\numberline {7}Tài liệu tham khảo}{29}{section.7}%
+\contentsline {subsection}{\numberline {6.1}Phân tích và trực quan hoá mức độ ảnh hưởng của thuộc tính}{28}{subsection.6.1}%
+\contentsline {subsubsection}{\numberline {6.1.1}Mục tiêu}{28}{subsubsection.6.1.1}%
+\contentsline {subsubsection}{\numberline {6.1.2}Triển khai}{28}{subsubsection.6.1.2}%
+\contentsline {section}{\numberline {7}Tài liệu tham khảo}{31}{section.7}%

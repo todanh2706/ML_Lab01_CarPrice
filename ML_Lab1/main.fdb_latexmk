@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber main"] 1762868768.43508 "main.bcf" "main.bbl" "main" 1762875794.10935 0
-  "main.bcf" 1762875793.98846 108725 862379d488cdc3286ca041106dd320de "pdflatex"
+["biber main"] 1762868768.43508 "main.bcf" "main.bbl" "main" 1762998252.07217 0
+  "main.bcf" 1762998251.95258 108725 862379d488cdc3286ca041106dd320de "pdflatex"
   "ref/ref.bib" 1762867944.06113 2190 0f37a997509d1791b2e6dad47d7c11d9 ""
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1762875791.5711 "main.tex" "main.pdf" "main" 1762875794.10964 0
+["pdflatex"] 1762998249.26174 "main.tex" "main.pdf" "main" 1762998252.07252 0
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1200.tfm" 1136768653 1536 74b7293ec3713bb7fdca8dd1bd1f469c ""
@@ -156,12 +156,12 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1762682374 5467155 19efa205003f9ecad95fbbaa6ff24da1 ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1762682341 3345721 8597e4ef293c794d3624f28fb5cc5b67 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
-  "content/section1.tex" 1762875785.10179 3494 f5fcedab6919d3809034be804da84fbc ""
+  "content/section1.tex" 1762876968.76201 3494 f5fcedab6919d3809034be804da84fbc ""
   "content/section2.tex" 1762480590 19091 98aab40256a7f7bafa1314bb3e4ad13d ""
   "content/section3.tex" 1762868882.49816 20252 641f71d9eb4efc8735ffb7ae403d999e ""
   "content/section4.tex" 1762867944.05948 4333 07b7fa1733341584b2f9e2ccb1fcf93a ""
-  "content/section5.tex" 1762873893.41734 2003 73d03b782ab82c46ed40a0134cf8544b ""
-  "content/section6.tex" 1762480590 42 9d7d468120a31fae77cc49ebe66f00f0 ""
+  "content/section5.tex" 1762876968.76235 2003 73d03b782ab82c46ed40a0134cf8544b ""
+  "content/section6.tex" 1762998207.05011 4002 3a5d583a267c73e2522812e8f8eacbdf ""
   "content/title.tex" 1762480590 839 c1ce7ff6875905f546f9a43aea03da71 ""
   "hcmus-report-template.sty" 1762480590 4528 ebd92f2c17f66633d60b58193d8c2c07 ""
   "img/baseline_linear_pred_vs_actual.png" 1762480592 89306 9ff446f94701feb5785b6a5acde70a58 ""
@@ -169,6 +169,8 @@
   "img/compare_R2.png" 1762480592 42874 40539e4f3ec3dcaf1f9c00abe0339c63 ""
   "img/compare_RMSE.png" 1762480592 46000 9f4648fadc7968b64903c810a1680e69 ""
   "img/corr_features_heatmap.png" 1762480592 223675 173347ea38ecdf913ac4fff42c20f1bc ""
+  "img/demo_influence.png" 1762997591.16576 169979 126c82791588bdc933a5caa119eb557f ""
+  "img/demo_influence_table.png" 1762998050.39853 149481 c3ef9f968069392ebef527370c5fa395 ""
   "img/elasticnet_pred_vs_actual.png" 1762480592 99816 7811978579d78d93012fbccb40fbda67 ""
   "img/feature_target_corr.png" 1762480592 181384 35c397255b3e2da0fa03542ec81449c1 ""
   "img/hcmus-logo.png" 1762480592 258629 5b1ca4d1e50ebb745d59a14c962a8fac ""
@@ -176,14 +178,14 @@
   "img/linear_test_pred_vs_actual.png" 1762867944.06016 91220 e2cf1149c938f184e70fa38d0e1cf486 ""
   "img/linear_test_value.png" 1762867944.06051 4192 22d040bafe30d9eecbda473a3c83ff00 ""
   "img/ridge_pred_vs_actual.png" 1762480592 99990 e0b27acc7b5eadcb19f88117803db5bc ""
-  "main.aux" 1762875793.98613 10932 2b91042724dba3248d741cbb60c0d276 "pdflatex"
+  "main.aux" 1762998251.94932 12398 1fdbeb72fc2ea9a796a725b617b1fea7 "pdflatex"
   "main.bbl" 1762868770.33161 10523 bdb1200de6d4bd785e2b4ec8fb678601 "biber main"
-  "main.lof" 1762875793.98928 1515 c8327d56504832b16ba531fb730f90ed "pdflatex"
-  "main.lot" 1762875792.78244 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "main.out" 1762875793.98746 8302 cd22eb2d9a1fa8bb9be763d5b9a99c29 "pdflatex"
-  "main.run.xml" 1762875793.98919 2302 4f28993e0c2dc71e8a7591049d36b9a8 "pdflatex"
+  "main.lof" 1762998251.95346 2010 2f6a47abe3cc541f5db6b61e563c2977 "pdflatex"
+  "main.lot" 1762998250.51457 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "main.out" 1762998251.95141 8969 1482925463c3d94889ded187bf4cc631 "pdflatex"
+  "main.run.xml" 1762998251.95327 2302 4f28993e0c2dc71e8a7591049d36b9a8 "pdflatex"
   "main.tex" 1762683132.40577 1583 2ed9444a6edef05a179ef31998f342ba ""
-  "main.toc" 1762875793.98925 3870 c6ca61746bf9917183ea70a04aa8fd34 "pdflatex"
+  "main.toc" 1762998251.95333 4193 bece1f3dfe41fc2131b387dfd222ef65 "pdflatex"
   "ref/ref.tex" 1762480590 77 ea2032dfa630e6cea8b708b0cbbecc78 ""
   (generated)
   "main.aux"

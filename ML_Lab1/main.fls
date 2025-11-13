@@ -380,6 +380,16 @@ INPUT ./content/section6.tex
 INPUT ./content/section6.tex
 INPUT ./content/section6.tex
 INPUT content/section6.tex
+INPUT ./img/demo_influence.png
+INPUT ./img/demo_influence.png
+INPUT ./img/demo_influence.png
+INPUT ./img/demo_influence.png
+INPUT ./img/demo_influence.png
+INPUT ./img/demo_influence_table.png
+INPUT ./img/demo_influence_table.png
+INPUT ./img/demo_influence_table.png
+INPUT ./img/demo_influence_table.png
+INPUT ./img/demo_influence_table.png
 INPUT ./ref/ref.tex
 INPUT ./ref/ref.tex
 INPUT ref/ref.tex
