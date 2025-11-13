@@ -6,18 +6,21 @@ from typing import List, Optional
 import joblib
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt  # === NEW: để vẽ hình ===
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.linear_model import ElasticNet, Lasso, LinearRegression, Ridge
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
+import os  # === NEW: tạo folder figures ===
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 DATA_PATH = PROJECT_ROOT / "archive" / "CarPrice_Assignment.csv"
 MODELS_DIR = PROJECT_ROOT / "models"
 METRICS_PATH = PROJECT_ROOT / "model_metrics_main1.csv"
+FIGURES_DIR = PROJECT_ROOT / "figures"  # === NEW: thư mục lưu hình ===
 TARGET_COLUMN = "price"
 DROP_COLUMNS = ["car_ID"]
 RANDOM_STATE = 42
@@ -189,6 +192,95 @@ def build_pipelines():
     }
     return pipelines
 
+# ============================
+# VẼ HÌNH
+# ============================
+
+def plot_pred_vs_actual(y_true: pd.Series, y_pred: np.ndarray, model_name: str, out_dir: Path):
+    plt.figure(figsize=(6, 6))
+    plt.scatter(y_true, y_pred, alpha=0.4)
+    min_val = min(y_true.min(), y_pred.min())
+    max_val = max(y_true.max(), y_pred.max())
+    plt.plot([min_val, max_val], [min_val, max_val], linestyle="--")
+    plt.xlabel("Actual y (validation)")
+    plt.ylabel("Predicted y")
+    plt.title(f"Predicted vs Actual - {model_name}")
+    plt.tight_layout()
+    out_path = out_dir / f"{model_name}_pred_vs_actual.png"
+    plt.savefig(out_path, dpi=200)
+    plt.close()
+
+
+def plot_residuals(y_true: pd.Series, y_pred: np.ndarray, model_name: str, out_dir: Path):
+    residuals = y_true - y_pred
+    plt.figure(figsize=(6, 4))
+    plt.scatter(y_pred, residuals, alpha=0.4)
+    plt.axhline(0, linestyle="--")
+    plt.xlabel("Predicted y")
+    plt.ylabel("Residual (y_true - y_pred)")
+    plt.title(f"Residuals vs Predicted - {model_name}")
+    plt.tight_layout()
+    out_path = out_dir / f"{model_name}_residuals.png"
+    plt.savefig(out_path, dpi=200)
+    plt.close()
+
+
+def plot_residual_hist(y_true: pd.Series, y_pred: np.ndarray, model_name: str, out_dir: Path):
+    residuals = y_true - y_pred
+    plt.figure(figsize=(6, 4))
+    plt.hist(residuals, bins=30)
+    plt.xlabel("Residual")
+    plt.ylabel("Frequency")
+    plt.title(f"Residual distribution - {model_name}")
+    plt.tight_layout()
+    out_path = out_dir / f"{model_name}_residual_hist.png"
+    plt.savefig(out_path, dpi=200)
+    plt.close()
+
+
+def plot_metric_bars(metrics_df: pd.DataFrame, out_dir: Path):
+    """
+    metrics_df: DataFrame có cột ['model', 'split', 'MAE', 'RMSE', 'R2'].
+    Hàm này sẽ dùng split = 'val' giống main.py để vẽ 3 bar chart.
+    """
+    val_df = metrics_df[metrics_df["split"] == "val"].copy()
+    val_df = val_df.set_index("model")
+    models_order = val_df.index.tolist()
+
+    # MAE
+    plt.figure(figsize=(6, 4))
+    plt.bar(models_order, val_df["MAE"])
+    plt.ylabel("MAE")  # (lower is better)
+    plt.title("Model comparison - MAE (validation)")
+    plt.tight_layout()
+    plt.ylim(val_df["MAE"].min() * 0.9, val_df["MAE"].max() * 1.1)
+    plt.savefig(out_dir / "compare_MAE.png", dpi=200)
+    plt.close()
+
+    # RMSE
+    plt.figure(figsize=(6, 4))
+    plt.bar(models_order, val_df["RMSE"])
+    plt.ylabel("RMSE")  # (lower is better)
+    plt.title("Model comparison - RMSE (validation)")
+    plt.tight_layout()
+    plt.ylim(val_df["RMSE"].min() * 0.9, val_df["RMSE"].max() * 1.1)
+    plt.savefig(out_dir / "compare_RMSE.png", dpi=200)
+    plt.close()
+
+    # R2
+    plt.figure(figsize=(6, 4))
+    plt.bar(models_order, val_df["R2"])
+    plt.ylabel("R²")  # (higher is better)
+    plt.title("Model comparison - R² (validation)")
+    plt.tight_layout()
+    plt.ylim(max(val_df["R2"].min() - 0.05, 0), min(val_df["R2"].max() + 0.05, 1))
+    plt.savefig(out_dir / "compare_R2.png", dpi=200)
+    plt.close()
+
+
+# ============================
+# main()
+# ============================
 
 def main():
     if not DATA_PATH.exists():
@@ -212,6 +304,10 @@ def main():
     pipelines = build_pipelines()
     metrics = []
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
+    FIGURES_DIR.mkdir(parents=True, exist_ok=True)  # === NEW: tạo thư mục figures ===
+
+    # === NEW: lưu prediction của tập validation để vẽ ===
+    val_predictions = {}
 
     for model_name, pipeline in pipelines.items():
         print(f"\n=== Training model: {model_name} ===")
@@ -221,6 +317,7 @@ def main():
             bic_step = pipeline.named_steps["bic_selector"]
             print(f"Selected {len(bic_step.selected_features_)} columns via BIC.")
 
+        # Lưu metrics cho từng split
         for split_name, X_split, y_split in [
             ("train", X_train, y_train),
             ("val", X_val, y_val),
@@ -230,10 +327,16 @@ def main():
             split_metrics["model"] = model_name
             metrics.append(split_metrics)
 
+        # Lưu model
         model_path = MODEL_PATHS[model_name]
         joblib.dump(pipeline, model_path)
         print(f"Saved {model_name} pipeline to {model_path.resolve()}")
 
+        # === NEW: tính prediction validation để vẽ hình ===
+        y_val_pred = pipeline.predict(X_val)
+        val_predictions[model_name] = y_val_pred
+
+    # Lưu metrics ra CSV
     metrics_df = pd.DataFrame(metrics)
     metrics_df = metrics_df[["model", "split", "MAE", "RMSE", "R2"]]
     metrics_df.to_csv(METRICS_PATH, index=False)
@@ -241,6 +344,16 @@ def main():
     print(metrics_df)
     print(f"\nSaved metrics to {METRICS_PATH.resolve()}")
 
+    # === NEW: Vẽ các hình giống main.py, dùng tập validation ===
+    for model_name, y_pred in val_predictions.items():
+        plot_pred_vs_actual(y_val, y_pred, model_name, FIGURES_DIR)
+        plot_residuals(y_val, y_pred, model_name, FIGURES_DIR)
+        plot_residual_hist(y_val, y_pred, model_name, FIGURES_DIR)
+
+    plot_metric_bars(metrics_df, FIGURES_DIR)
+
+    print(f"\nAll figures saved to '{FIGURES_DIR.resolve()}' and metrics saved to '{METRICS_PATH.resolve()}'.")
+    
 
 if __name__ == "__main__":
     main()
