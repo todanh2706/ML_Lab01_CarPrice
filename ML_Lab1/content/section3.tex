@@ -75,12 +75,44 @@ Trong thực nghiệm, chúng tôi xây dựng một pipeline gồm hai bước:
 Tiếp theo, để tìm giá trị điều chuẩn tối ưu cho mô hình Lasso, chúng tôi sử dụng phương pháp tìm kiếm lưới kết hợp cross-validation. Cụ thể, chúng tôi thực hiện \texttt{GridSearchCV} (5-fold cross-validation, scoring theo $R^2$) trên tham số $\alpha$ của Lasso (tương ứng với $\lambda$) trong khoảng logarithmic từ $10^{-4}$ đến $10^{3}$. Việc tìm kiếm trên không gian log-space giúp thử nhiều cấp độ regularization, từ rất nhẹ đến rất mạnh. Kết quả cho thấy $\alpha \approx 78.48$ là giá trị tối ưu cho mô hình (đạt $R^2$ cao nhất trên tập validation). Với $\alpha$ này, mô hình Lasso giữ lại được độ đơn giản cần thiết đồng thời vẫn giải thích tốt phương sai của dữ liệu. Mô hình cuối cùng được huấn luyện với \texttt{alpha=78.48}, \texttt{random\_state=42} (để kết quả tái lập) và \texttt{max\_iter=10000}. Việc tăng \texttt{max\_iter} lên 10000 vòng lặp nhằm đảm bảo thuật toán Lasso (coordinate descent) hội tụ, nhất là khi $\alpha$ khá lớn.
 
 \subsection{Mô hình Elastic Net}
+\subsubsection{Cơ sở lý thuyết}
 
-Theo \cite{Vu_2017}, khi kết hợp cả hai dạng regularization $l_1$ và $l_2$, ta thu được mô hình Elastic Net Regression.
-Lúc đó, \textbf{hàm loss của Elastic Net} sẽ có dạng:
+Elastic Net là một mô hình hồi quy tuyến tính kết hợp đồng thời $L1$ (như trong Lasso) và $L2$ (như trong Ridge). Mục tiêu của Elastic Net là tận dụng ưu điểm của cả hai kỹ thuật regularization: khả năng chọn lọc đặc trưng (nhờ $L1$) và khả năng ổn định mô hình khi tồn tại đa cộng tuyến (nhờ $L2$). Theo \cite{Vu_2017}, hàm mất mát của Elastic Net được định nghĩa như sau:
+
 \[
-J(w) = \frac{1}{2} \|y - Xw\|_2^2 + \lambda_1 \|w\|_1 + \lambda_2 \|w\|_2^2
+J(w) = \frac{1}{2}\|y - Xw\|_2^2 \;+\; \lambda_1 \|w\|_1 \;+\; \lambda_2 \|w\|_2^2
 \]
-trong đó, $\lambda_1$ và $\lambda_2$ lần lượt là các hệ số điều chuẩn tương ứng với $l_1$ và $l_2$ regularization, giúp cân bằng giữa khả năng chọn lọc đặc trưng và việc giảm độ phức tạp của mô hình.
-Nhờ đó, Elastic Net đặc biệt hữu ích khi dữ liệu vừa chứa nhiều đặc trưng không quan trọng, vừa tồn tại hiện tượng đa cộng tuyến (multicollinearity) giữa các biến.
 
+Trong đó, $\lambda_1$ và $\lambda_2$ lần lượt là hệ số của $L1$ và $L2$:
+\begin{itemize}
+    \item $\lambda_1$ càng lớn thì mô hình càng giống Lasso: nhiều hệ số được kéo về 0, thực hiện chọn lọc đặc trưng.
+    \item $\lambda_2$ càng lớn thì mô hình càng giống Ridge: làm trơn mô hình và giảm mức độ nhạy với đa cộng tuyến.
+\end{itemize}
+
+Một ưu điểm nổi bật của Elastic Net là khả năng hoạt động tốt trong bối cảnh dữ liệu có nhiều đặc trưng tương quan mạnh với nhau (multicollinearity). Trong khi Lasso có xu hướng chọn một biến bất kỳ trong nhóm các biến tương quan cao, Elastic Net có khả năng giữ lại cả nhóm biến, giúp mô hình ổn định hơn. Vì vậy Elastic Net phù hợp với các bộ dữ liệu có số chiều lớn hoặc có nhiều đặc trưng không quan trọng nhưng lại liên quan lẫn nhau.
+
+Trong scikit-learn, mô hình Elastic Net sử dụng hai tham số:
+\begin{itemize}
+    \item \texttt{alpha}: tổng mức phạt (\(\alpha = \lambda_1 + \lambda_2\))
+    \item \texttt{l1\_ratio}: tỉ lệ giữa hai thành phần (\texttt{l1\_ratio} = $\lambda_1 / (\lambda_1 + \lambda_2)$)
+\end{itemize}
+
+Nhờ cấu trúc linh hoạt này, Elastic Net cho phép điều chỉnh mô hình đi từ Ridge ($\texttt{l1\_ratio}=0$) đến Lasso ($\texttt{l1\_ratio}=1$).
+
+\subsubsection{Triển khai thực nghiệm}
+
+Tương tự như các mô hình Ridge và Lasso, Elastic Net được triển khai thông qua \texttt{sklearn.pipeline.Pipeline}, trong đó bao gồm:
+\begin{itemize}
+    \item \textbf{Chuẩn hóa dữ liệu}: sử dụng \texttt{StandardScaler} để đảm bảo các đặc trưng có cùng thang đo, giúp regularization hoạt động đúng.
+    \item \textbf{Huấn luyện mô hình ElasticNet}: sử dụng lớp \texttt{ElasticNet} của scikit-learn.
+\end{itemize}
+
+Để tìm được bộ tham số tối ưu, nhóm sử dụng \texttt{GridSearchCV} như sau:
+\begin{itemize}
+    \item \texttt{alpha}: quét trong khoảng \texttt{numpy.logspace(-4, 3, 20)} nhằm thử nhiều mức độ regularization từ rất nhỏ đến rất lớn.
+    \item \texttt{l1\_ratio}: quét trên dãy \([0.1, 0.3, 0.5, 0.7, 0.9, 1.0]\), cho phép mô hình dao động từ thiên về Ridge đến thiên về Lasso.
+\end{itemize}
+
+Tiêu chí đánh giá là chỉ số $R^2$, \texttt{GridSearchCV} sẽ tự động huấn luyện và đánh giá mô hình với mọi cặp giá trị (\texttt{alpha}, \texttt{l1\_ratio}), chọn ra bộ tham số mang lại hiệu suất cao nhất.
+
+Mô hình cuối cùng được huấn luyện lại với các tham số tối ưu này trên toàn bộ tập \texttt{X\_train} và \texttt{y\_train}.
