@@ -36,8 +36,8 @@
       \strng{authorfullhash}{639307d4959b60055c361e071c175681}
       \strng{authorfullhashraw}{639307d4959b60055c361e071c175681}
       \field{extraname}{1}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{chapter}{Chapter 10: Variable Selection}
@@ -65,8 +65,8 @@
       \strng{authorfullhash}{639307d4959b60055c361e071c175681}
       \strng{authorfullhashraw}{639307d4959b60055c361e071c175681}
       \field{extraname}{2}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{chapter}{Chapter 10: Variable Selection}
@@ -94,8 +94,8 @@
       \strng{authornamehash}{7c00708c15b9cf858624f8a908cb5f89}
       \strng{authorfullhash}{7c00708c15b9cf858624f8a908cb5f89}
       \strng{authorfullhashraw}{7c00708c15b9cf858624f8a908cb5f89}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{GitHub}
@@ -108,7 +108,7 @@
       \verb https://github.com/talhahascelik/python_stepwiseSelection/blob/master/stepwiseSelection.py
       \endverb
     \endentry
-    \entry{MachineLarning}{inbook}{}{}
+    \entry{MSE}{inbook}{}{}
       \name{author}{1}{}{%
         {{hash=50b872b1aeca3e9176f44002f92efc85}{%
            family={Lên},
@@ -124,19 +124,54 @@
       \strng{authornamehash}{50b872b1aeca3e9176f44002f92efc85}
       \strng{authorfullhash}{50b872b1aeca3e9176f44002f92efc85}
       \strng{authorfullhashraw}{50b872b1aeca3e9176f44002f92efc85}
+      \field{extraname}{1}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{chapter}{Lecture 03: LINEAR MODEL}
+      \field{edition}{1st}
+      \field{note}{Truy cập ngày 14 tháng 11 năm 2025}
+      \field{title}{MachineLarning}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://lenbui.github.io/bookml/lect03-linear-regression-ml.html#problem-statement
+      \endverb
+      \verb{url}
+      \verb https://lenbui.github.io/bookml/lect03-linear-regression-ml.html#problem-statement
+      \endverb
+    \endentry
+    \entry{ClosedFormSolution}{inbook}{}{}
+      \name{author}{1}{}{%
+        {{hash=50b872b1aeca3e9176f44002f92efc85}{%
+           family={Lên},
+           familyi={L\bibinitperiod},
+           given={Bùi\bibnamedelima Tiến},
+           giveni={B\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+      }
+      \strng{namehash}{50b872b1aeca3e9176f44002f92efc85}
+      \strng{fullhash}{50b872b1aeca3e9176f44002f92efc85}
+      \strng{fullhashraw}{50b872b1aeca3e9176f44002f92efc85}
+      \strng{bibnamehash}{50b872b1aeca3e9176f44002f92efc85}
+      \strng{authorbibnamehash}{50b872b1aeca3e9176f44002f92efc85}
+      \strng{authornamehash}{50b872b1aeca3e9176f44002f92efc85}
+      \strng{authorfullhash}{50b872b1aeca3e9176f44002f92efc85}
+      \strng{authorfullhashraw}{50b872b1aeca3e9176f44002f92efc85}
+      \field{extraname}{2}
       \field{sortinit}{9}
       \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{chapter}{Lecture 03: LINEAR MODEL}
       \field{edition}{1st}
+      \field{note}{Truy cập ngày 14 tháng 11 năm 2025}
       \field{title}{MachineLarning}
       \field{year}{2025}
       \verb{urlraw}
-      \verb https://lenbui.github.io/bookml/lect03-linear-regression-ml.html
+      \verb https://lenbui.github.io/bookml/lect03-linear-regression-ml.html#solving-problem
       \endverb
       \verb{url}
-      \verb https://lenbui.github.io/bookml/lect03-linear-regression-ml.html
+      \verb https://lenbui.github.io/bookml/lect03-linear-regression-ml.html#solving-problem
       \endverb
     \endentry
     \entry{Vu_2017}{misc}{}{}

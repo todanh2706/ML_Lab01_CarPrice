@@ -1,24 +1,43 @@
 \pagebreak
 \section{Lý thuyết về các mô hình và lựa chọn}
-\subsection{Mô hình Linear Regression ~\cite{MachineLarning}}
-Linear regression là một mô hình học có giám sát với khả năng tìm mối liên hệ tuyến tính giữa input và output.\\
-\textbf{Vấn đề:} Model này nhận vào một vector $x \in \mathbb{R}^{D+1}$ gồm các đặt trưng của một mẫu và trả về giá trị dự đoán $y \in \mathbb{R}$. Ví dụ: Nhận vào các giá trị thuộc tính của một ngôi nhà như Diện tích sàn ($m^2$), số lượng phòng ngủ, khoảng cách tới trung tâm thành phố (m), tuổi nhà (năm) và trả về dự đoán giá của căn nhà đó.\\
-\textbf{Đánh giá hiệu năng: }Mô hình Linear Regression thường được đánh giá bằng Mean Square Error (MSE) trên tập train:\\
-\[
-MSE_{\text{train}} = \frac{1}{N} \| \hat{\mathbf{y}} - \mathbf{y} \|^2 = \frac{1}{N} \sum_{n=1}^{N} (\hat{y}_n - y_n)^2
-\]
-với $\hat{\mathbf{y}}$ là tập giá trị dự đoán, $\mathbf{y}$ là tập giá trị thực tế của tập train.\\
-\textbf{Huấn luyện mô hình}: Các phương pháp huấn luyện mô hình Linear Regression được dựa trên cách tính toán vector trọng số $\omega$ để giảm MSE xuống thấp nhất. Một cách làm phổ biến là tính toán đạo hàm của hàm MSE theo $\omega$ và cho nó bằng 0 để tìm cực tiểu.
-\[
-\nabla_{\mathbf{w}} (MSE_{\text{train}}) = \nabla_{\mathbf{w}} (\mathbf{w}^T \mathbf{X}^T \mathbf{X} \mathbf{w} - \mathbf{w}^T \mathbf{X}^T \mathbf{y} - \mathbf{y}^T \mathbf{X} \mathbf{w} + \mathbf{y}^T \mathbf{y}) = 2\mathbf{X}^T \mathbf{X} \mathbf{w} - 2\mathbf{X}^T \mathbf{y}
-\]
+% \subsection{Mô hình Linear Regression ~\cite{MachineLarning}}
+% Linear regression là một mô hình học có giám sát với khả năng tìm mối liên hệ tuyến tính giữa input và output.\\
+% \textbf{Vấn đề:} Model này nhận vào một vector $x \in \mathbb{R}^{D+1}$ gồm các đặt trưng của một mẫu và trả về giá trị dự đoán $y \in \mathbb{R}$. Ví dụ: Nhận vào các giá trị thuộc tính của một ngôi nhà như Diện tích sàn ($m^2$), số lượng phòng ngủ, khoảng cách tới trung tâm thành phố (m), tuổi nhà (năm) và trả về dự đoán giá của căn nhà đó.\\
+% \textbf{Đánh giá hiệu năng: }Mô hình Linear Regression thường được đánh giá bằng Mean Square Error (MSE) trên tập train:\\
+% \[
+% MSE_{\text{train}} = \frac{1}{N} \| \hat{\mathbf{y}} - \mathbf{y} \|^2 = \frac{1}{N} \sum_{n=1}^{N} (\hat{y}_n - y_n)^2
+% \]
+% với $\hat{\mathbf{y}}$ là tập giá trị dự đoán, $\mathbf{y}$ là tập giá trị thực tế của tập train.\\
+% \textbf{Huấn luyện mô hình}: Các phương pháp huấn luyện mô hình Linear Regression được dựa trên cách tính toán vector trọng số $\omega$ để giảm MSE xuống thấp nhất. Một cách làm phổ biến là tính toán đạo hàm của hàm MSE theo $\omega$ và cho nó bằng 0 để tìm cực tiểu.
+% \[
+% \nabla_{\mathbf{w}} (MSE_{\text{train}}) = \nabla_{\mathbf{w}} (\mathbf{w}^T \mathbf{X}^T \mathbf{X} \mathbf{w} - \mathbf{w}^T \mathbf{X}^T \mathbf{y} - \mathbf{y}^T \mathbf{X} \mathbf{w} + \mathbf{y}^T \mathbf{y}) = 2\mathbf{X}^T \mathbf{X} \mathbf{w} - 2\mathbf{X}^T \mathbf{y}
+% \]
 
-\begin{align*}
-\nabla_{\mathbf{w}} (MSE_{\text{train}}) &= 0 \\
-\mathbf{X}^T \mathbf{X} \mathbf{w} - \mathbf{X}^T \mathbf{y} &= 0 \\
-\mathbf{X}^T \mathbf{X} \mathbf{w} &= \mathbf{X}^T \mathbf{y} \\
-\mathbf{w} &= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}
-\end{align*}
+% \begin{align*}
+% \nabla_{\mathbf{w}} (MSE_{\text{train}}) &= 0 \\
+% \mathbf{X}^T \mathbf{X} \mathbf{w} - \mathbf{X}^T \mathbf{y} &= 0 \\
+% \mathbf{X}^T \mathbf{X} \mathbf{w} &= \mathbf{X}^T \mathbf{y} \\
+% \mathbf{w} &= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}
+% \end{align*}
+\subsection{Mô hình Linear Regression}
+\subsection{Cơ sở lý thuyết}
+Hồi quy tuyến tính (\textbf{\textit{Linear Regression}}) là một trong những mô hình học có giám sát nền tảng, được sử dụng để mô hình hoá mối quan hệ tuyến tính giữa một biến phụ (hay biến đầu) ra thuộc và một hoặc nhiều biến độc lập (hay biến thuộc tính đầu vào). Mô hình giả định rằng giá trị mục tiêu $y$ có thể được biểu diễn dưới dạng một tổ hợp tuyến tính các đặc trưng $X$.\\
+Mục tiêu của mô hình là tìm ra vector trọng số $w$ để tối thiểu hoá hàm mất mát. Đối với hồi quy tuyến tính cơ bản, hàm mất mát thường là \textit{Mean Square Error} (MSE). Hàm mục tiêu này có dạng
+\begin{center}
+    $\displaystyle J(w) = \frac{1}{N}.\|y-Xw\|^2_2$. \cite{MSE}
+\end{center}
+Trong đó, $X$ là ma trận thuộc tính, $y$ là vector giá trị thực tế, $w$ là vector trọng số cần tìm và $N$ là số lượng mẫu.\\
+Khác với các phương pháp tối ưu dựa trên Gradient Descent, hồi quy tuyến tính cơ bản có một nghiệm dạng đóng (\textit{closed-form solution}) là $\displaystyle w=\left(X^TX\right)^{-1}X^Ty$. \cite{ClosedFormSolution}\\
+Mô hình hồi quy tuyến tính cơ bản không chứa các siêu tham số điều chuẩn (\textit{regularization hyperparameter}) như Ridge hay Lasso. Do đó, độ phức tạp của mô hình và nguy cơ quá khớp (\textit{overfitting}) phụ thuộc trực tiếp vào số lượng và chất lượng của bộ thuộc tính đầu vào, bộ thuộc tính đã qua một bước chọn lọc bằng Forward Selection sử dụng chỉ số BIC.
+\subsubsection{Triển khai thực nghiệm}
+Trong đồ án này, mô hình hồi quy tuyến tính không được huấn luyện trên toàn bộ thuộc tính. Thay vào đó, nó được kết hợp với một kỹ thuật lựa chọn thuộc tính tự động, như đã nói đó là Forward Selection kết hợp với BIC. Toàn bộ quá trình diễn ra như sau:
+\begin{itemize}
+    \item \textbf{Pipeline:} Mô hình được đóng gói trong một \texttt{sklearn.pipeline.Pipeline} để chuẩn hoá quy trình xử lý.
+    \item \textbf{Tiền xử lý (Preprocessing):} Bước đầu tiên trong pipeline là mã hoá one-hot cho các biến phân loại và áp dụng \texttt{StandardScaler} cho các biến số.
+    \item \textbf{Lựa chọn thuộc tính (Feature Selection):} Điểm khác biệt mấu chốt của pipeline này là bước \texttt{bic\_selector}. Thay vì dùng tất cả thuộc tính, mô hình sẽ sử dụng kỹ thuật lựa chọn đặc trưng để lọc ra một bộ thuộc tính phù hợp nhằm gia tăng hiệu suất.
+    \item \textbf{Cấu hình:} Mô hình hồi quy tuyến tính \texttt{sklearn.linear\_model.LinearRegression} được khởi tạo với các tham số mặc định, huấn luyện trên bộ thuộc tính đã được chọn.
+\end{itemize}
+
 \subsection{Mô hình Ridge}
 \subsubsection{Cơ sở lý thuyết}
 Hồi quy Ridge (\textbf{\textit{Ridge Regression}}) là một kỹ thuật hồi quy tuyến tính đuọc điều chỉnh (\textit{regularized}) nhằm giải quyết hiện tượng quá khớp (\textit{overfitting}) bằng cách dùng các kỹ thuật Chính quy hoá (\textit{Regularization}). Phương pháp này thêm một số hạng (thường là \textit{penalty}) vào hàm mất mát (\textit{loss function}) của mô hình. Thành phần phạt này dùng để đánh giá và kiểm soát độ phức tạp của mô hình\\
