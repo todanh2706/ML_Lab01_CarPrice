@@ -215,47 +215,44 @@ with col2:
     
     if model:
         try:
-            # 1. Trích xuất hệ số
+            # Extract the coef
             coefficients = model.named_steps['linear_model'].coef_
             
-            # 2. Trích xuất tên đặc trưng
+            # Extract the feature names
             if model_name == "Linear Regression":
                 feature_names = model.named_steps['bic_selector'].get_feature_names_out()
             else:
                 feature_names = model.named_steps['preprocess'].feature_columns_
 
-            # 3. Đảm bảo số lượng hệ số và tên đặc trưng khớp nhau
+            # Ensure the equality between the number of coefs. and the number of feature names
             if len(coefficients) == len(feature_names):
-                # Tạo DataFrame để vẽ biểu đồ
+                # Create df
                 coef_df = pd.DataFrame({
                     'Feature': feature_names,
                     'Influence': coefficients
                 })
                 
-                # Thêm cột để tô màu (âm/dương)
+                # Coloring
                 coef_df['Positive'] = coef_df['Influence'] > 0
                 
-                # Sắp xếp theo giá trị tuyệt đối để xem feature nào ảnh hưởng nhất
+                # Sort by absoluted value to find the most influencer
                 coef_df['Absolute_Influence'] = coef_df['Influence'].abs()
                 coef_df = coef_df.sort_values(by='Absolute_Influence', ascending=False)
                 
-                # Lấy Top 20 features ảnh hưởng nhất để biểu đồ gọn gàng
+                # Top 20
                 top_n = 20
                 top_n_actual = min(top_n, len(coef_df)) 
                 
                 coef_df_top = coef_df.head(top_n_actual).sort_values(by='Influence', ascending=False)
 
-                # 4. Vẽ biểu đồ bằng Altair
+                # Draw usin Altair
                 chart = alt.Chart(coef_df_top).mark_bar().encode(
-                    # Sắp xếp trục Y theo giá trị Influence
+                    # Sort Y-axis
                     x=alt.X('Influence:Q'),
                     y=alt.Y('Feature:N', sort=alt.SortField(field="Influence", order='descending')),
                     
-                    # Tô màu dựa trên giá trị Âm/Dương
-                    color=alt.Color('Positive:N', 
-                                    legend=None,
-                                    scale={'range': ['#FF6B6B', '#6BFFB8']} # Tùy chỉnh màu (Đỏ/Xanh)
-                                   ),
+                    # Coloring
+                    color=alt.Color('Positive:N', legend=None, scale={'range': ['#FF6B6B', '#6BFFB8']}),
                     tooltip=['Feature', 'Influence']
                 ).properties(
                     title=f"Top {top_n_actual} Feature Influences ({model_name})"
@@ -263,19 +260,19 @@ with col2:
                 
                 st.altair_chart(chart, use_container_width=True)
                 
-                # Thêm expander để xem tất cả các hệ số nếu muốn
+                # Add expander for more detail viewing
                 with st.expander("See all feature coefficients"):
                     st.dataframe(coef_df.sort_values(by='Influence', ascending=False))
             
             else:
-                st.error(f"Lỗi: Số lượng đặc trưng ({len(feature_names)}) và hệ số ({len(coefficients)}) không khớp.")
+                st.error(f"Error: The number of feature ({len(feature_names)}) and the coefs ({len(coefficients)}) do not match.")
                 
         except KeyError as e:
-            st.error(f"Lỗi: Không tìm thấy bước pipeline: {e}. Hãy kiểm tra tên step trong file train ('linear_model', 'preprocess', 'bic_selector').")
+            st.error(f"Error: Cannot find the pipeline step: {e}.")
         except Exception as e:
-            st.error(f"Đã xảy ra lỗi khi lấy hệ số: {e}")
+            st.error(f"An error occures when getting coef: {e}")
     else:
-        st.info("Model chưa được tải. Không thể hiển thị insights.")
+        st.info("Model is not loaded.")
 
     st.write("---")
 
