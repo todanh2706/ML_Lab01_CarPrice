@@ -1,4 +1,4 @@
-# ML_Lab1_CarPrive
+# ML_Lab1_CarPrice
 A Data Science project about applying Machine Learning models (Linear Regression and its variants) to predict the price of some typical cars.
 
 # How to run
