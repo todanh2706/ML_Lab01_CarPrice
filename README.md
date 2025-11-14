@@ -1,5 +1,5 @@
-# ML_Lab1_SalaryPrediction
-A Data Science project about applying Machine Learning models (Linear Regression) to predict the salary of someone
+# ML_Lab1_CarPrive
+A Data Science project about applying Machine Learning models (Linear Regression and its variants) to predict the price of some typical cars.
 
 # How to run
 1. Run search_for_best_params.py to find the best alpha and l1 ratio for the models.
